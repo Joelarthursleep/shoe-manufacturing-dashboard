@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Shoe Manufacturing Dashboard</title>
+    <title>Manufacturing Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -11,211 +11,427 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --primary-color: #007AFF;
+            --success-color: #34C759;
+            --warning-color: #FF9500;
+            --danger-color: #FF3B30;
+            --background: #F2F2F7;
+            --card-background: #FFFFFF;
+            --text-primary: #000000;
+            --text-secondary: #8E8E93;
+            --border-color: #E5E5EA;
+            --shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
         }
 
         header {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            margin-bottom: 30px;
-            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+            margin: -20px -20px 30px -20px;
         }
 
-        .worker-info {
-            background-color: #3498db;
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        .main-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-bottom: 20px;
+        .header-content h1 {
+            font-size: 34px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
         }
 
-        @media (max-width: 768px) {
-            .main-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .card {
-            background-color: white;
+        .language-selector select {
+            background-color: var(--card-background);
+            border: 1px solid var(--border-color);
             border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 8px 16px;
+            font-size: 15px;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.2s;
         }
 
-        .card h2 {
-            margin-bottom: 15px;
-            color: #2c3e50;
+        .language-selector select:hover {
+            border-color: var(--primary-color);
+        }
+
+        .status-bar {
+            background-color: var(--card-background);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .worker-info h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .worker-id {
+            color: var(--text-secondary);
+            font-size: 17px;
+        }
+
+        .clock-section {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 20px;
         }
 
-        .icon {
-            font-size: 24px;
-        }
-
-        .work-item {
-            background-color: #ecf0f1;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 8px;
-            border-left: 5px solid #3498db;
-        }
-
-        .work-item.in-progress {
-            border-left-color: #f39c12;
-            background-color: #ffeea8;
-        }
-
-        .work-item.completed {
-            border-left-color: #27ae60;
-            background-color: #d5f4e6;
-        }
-
-        .stage-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            flex-wrap: wrap;
+        .timer {
+            font-size: 48px;
+            font-weight: 200;
+            letter-spacing: -1px;
+            font-variant-numeric: tabular-nums;
         }
 
         .btn {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .btn-primary {
-            background-color: #3498db;
+            background-color: var(--primary-color);
             color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 24px;
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .btn-primary:hover {
-            background-color: #2980b9;
+        .btn:hover {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+
+        .btn:active {
+            transform: scale(0.95);
         }
 
         .btn-success {
-            background-color: #27ae60;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background-color: #229954;
+            background-color: var(--success-color);
         }
 
         .btn-warning {
-            background-color: #f39c12;
-            color: white;
+            background-color: var(--warning-color);
         }
 
-        .btn-warning:hover {
-            background-color: #e67e22;
+        .btn-secondary {
+            background-color: var(--text-secondary);
         }
 
-        .photo-upload {
-            margin-top: 10px;
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
-        .photo-upload input[type="file"] {
-            display: none;
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
         }
 
-        .photo-upload label {
-            display: inline-block;
-            padding: 10px 15px;
-            background-color: #9b59b6;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
+        .order-card {
+            background-color: var(--card-background);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
             transition: all 0.3s;
         }
 
-        .photo-upload label:hover {
-            background-color: #8e44ad;
+        .order-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 20px;
+        }
+
+        .order-number {
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .order-status {
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            background-color: var(--background);
+            color: var(--text-secondary);
+        }
+
+        .order-status.pending {
+            background-color: #FFF3CD;
+            color: #856404;
+        }
+
+        .order-status.in-progress {
+            background-color: #CCE5FF;
+            color: #004085;
+        }
+
+        .order-status.completed {
+            background-color: #D4EDDA;
+            color: #155724;
+        }
+
+        .order-details {
+            margin-bottom: 24px;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .detail-label {
+            color: var(--text-secondary);
+            font-size: 15px;
+        }
+
+        .detail-value {
+            font-weight: 500;
+            font-size: 15px;
+        }
+
+        .inventory-section {
+            background-color: var(--background);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .inventory-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .inventory-list {
+            display: grid;
+            gap: 8px;
+        }
+
+        .inventory-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px;
+            background-color: var(--card-background);
+            border-radius: 8px;
+        }
+
+        .checkbox {
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+            accent-color: var(--primary-color);
+        }
+
+        .stages-section {
+            margin-top: 24px;
+        }
+
+        .stages-title {
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .stages-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .stage-card {
+            background-color: var(--background);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            transition: all 0.2s;
+            border: 2px solid transparent;
+        }
+
+        .stage-card.completed {
+            border-color: var(--success-color);
+            background-color: #E8F5E9;
+        }
+
+        .stage-card.current {
+            border-color: var(--primary-color);
+            background-color: #E3F2FD;
+        }
+
+        .stage-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .stage-name {
+            font-weight: 600;
+            font-size: 15px;
+            margin-bottom: 4px;
+        }
+
+        .stage-status {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+
+        .upload-btn {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            background-color: var(--card-background);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .upload-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .upload-btn.uploaded {
+            background-color: var(--success-color);
+            color: white;
+            border-color: var(--success-color);
+        }
+
+        input[type="file"] {
+            display: none;
+        }
+
+        .begin-btn {
+            width: 100%;
+            margin-top: 16px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .stat-card {
+            background-color: var(--card-background);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .progress-container {
+            margin-bottom: 16px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--background);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--success-color);
+            transition: width 0.3s ease;
+            border-radius: 4px;
         }
 
         .schedule-table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 10px;
         }
 
-        .schedule-table th, .schedule-table td {
-            padding: 10px;
+        .schedule-table th,
+        .schedule-table td {
+            padding: 12px;
             text-align: center;
-            border: 1px solid #ddd;
+            border-bottom: 1px solid var(--border-color);
         }
 
         .schedule-table th {
-            background-color: #34495e;
-            color: white;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .schedule-table td {
-            background-color: #ecf0f1;
+            font-size: 15px;
         }
 
         .schedule-table .today {
-            background-color: #3498db;
+            background-color: var(--primary-color);
             color: white;
-            font-weight: bold;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 30px;
-            background-color: #ecf0f1;
-            border-radius: 15px;
-            overflow: hidden;
-            margin-top: 10px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background-color: #27ae60;
-            transition: width 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-        }
-
-        .language-selector {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-
-        .language-selector select {
-            padding: 5px 10px;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
         }
 
         .modal {
@@ -225,8 +441,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             z-index: 1000;
+            animation: fadeIn 0.2s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
         .modal-content {
@@ -234,111 +458,327 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: white;
-            padding: 30px;
-            border-radius: 10px;
-            max-width: 500px;
+            background-color: var(--card-background);
+            padding: 32px;
+            border-radius: 20px;
+            max-width: 400px;
             width: 90%;
+            text-align: center;
+            animation: slideIn 0.3s;
         }
 
-        .close-modal {
-            position: absolute;
-            top: 10px;
-            right: 10px;
+        @keyframes slideIn {
+            from {
+                transform: translate(-50%, -50%) scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+        }
+
+        .modal h2 {
             font-size: 24px;
-            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 8px;
         }
 
-        .timer {
-            font-size: 18px;
-            font-weight: bold;
-            color: #e74c3c;
+        .modal p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .orders-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stages-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .timer {
+                font-size: 36px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="language-selector">
-        <select id="languageSelect" onchange="changeLanguage()">
-            <option value="en">English</option>
-            <option value="es">Español</option>
-            <option value="zh">中文</option>
-            <option value="pt">Português</option>
-        </select>
-    </div>
+    <header>
+        <div class="header-content">
+            <h1 data-translate="title">Manufacturing Dashboard</h1>
+            <div class="language-selector">
+                <select id="languageSelect" onchange="changeLanguage()">
+                    <option value="en">English</option>
+                    <option value="es">Español</option>
+                    <option value="zh">中文</option>
+                    <option value="pt">Português</option>
+                </select>
+            </div>
+        </div>
+    </header>
 
     <div class="container">
-        <header>
-            <h1 data-translate="title">Shoe Manufacturing Dashboard</h1>
-            <p data-translate="date">Friday, 30 May 2025</p>
-        </header>
-
-        <div class="worker-info">
-            <div>
-                <h3 data-translate="welcome">Welcome, Worker</h3>
-                <p>ID: <span id="workerId">W-12345</span></p>
+        <div class="status-bar">
+            <div class="worker-info">
+                <h2 data-translate="welcome">Welcome back</h2>
+                <p class="worker-id">Worker ID: <span id="workerId">W-12345</span></p>
             </div>
-            <div>
-                <button class="btn btn-warning" onclick="clockIn()" data-translate="clockIn">Clock In</button>
-                <span class="timer" id="timer">00:00:00</span>
+            <div class="clock-section">
+                <div class="timer" id="timer">00:00:00</div>
+                <button class="btn btn-warning" onclick="clockIn()" id="clockBtn">
+                    <span>⏱</span>
+                    <span data-translate="clockIn">Clock In</span>
+                </button>
             </div>
         </div>
 
-        <div class="main-grid">
-            <div class="card">
-                <h2><span class="icon">📋</span> <span data-translate="todayTasks">Today's Tasks</span></h2>
-                <div id="taskList">
-                    <div class="work-item" data-order="ORD-001">
-                        <h3>Order: ORD-001</h3>
-                        <p><strong data-translate="model">Model:</strong> Classic Oxford</p>
-                        <p><strong data-translate="size">Size:</strong> 42 EU</p>
-                        <p><strong data-translate="quantity">Quantity:</strong> 1 pair</p>
-                        <div class="stage-buttons">
-                            <button class="btn btn-primary" onclick="updateStage('ORD-001', 'cutting')" data-translate="cutting">Cutting</button>
-                            <button class="btn btn-primary" onclick="updateStage('ORD-001', 'stitching')" data-translate="stitching">Stitching</button>
-                            <button class="btn btn-primary" onclick="updateStage('ORD-001', 'lasting')" data-translate="lasting">Lasting</button>
-                            <button class="btn btn-primary" onclick="updateStage('ORD-001', 'finishing')" data-translate="finishing">Finishing</button>
-                            <button class="btn btn-success" onclick="completeOrder('ORD-001')" data-translate="complete">Complete</button>
+        <h2 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;" data-translate="todayOrders">Today's Orders</h2>
+        
+        <div class="orders-grid" id="ordersGrid">
+            <div class="order-card" data-order="ORD-001">
+                <div class="order-header">
+                    <h3 class="order-number">ORD-001</h3>
+                    <span class="order-status pending" data-translate="statusPending">Pending</span>
+                </div>
+                
+                <div class="order-details">
+                    <div class="detail-row">
+                        <span class="detail-label" data-translate="model">Model</span>
+                        <span class="detail-value">Classic Oxford</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label" data-translate="size">Size</span>
+                        <span class="detail-value">42 EU</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label" data-translate="quantity">Quantity</span>
+                        <span class="detail-value">1 pair</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label" data-translate="color">Colour</span>
+                        <span class="detail-value">Black</span>
+                    </div>
+                </div>
+
+                <div class="inventory-section">
+                    <h4 class="inventory-title">
+                        <span>📦</span>
+                        <span data-translate="confirmInventory">Confirm Inventory</span>
+                    </h4>
+                    <div class="inventory-list">
+                        <div class="inventory-item">
+                            <input type="checkbox" class="checkbox" id="leather-001" onchange="checkInventory('ORD-001')">
+                            <label for="leather-001" data-translate="leather">Premium Leather (Black)</label>
                         </div>
-                        <div class="photo-upload">
-                            <label for="photo-ORD-001">
-                                📷 <span data-translate="uploadPhoto">Upload Photo</span>
-                            </label>
-                            <input type="file" id="photo-ORD-001" accept="image/*" onchange="uploadPhoto('ORD-001', this)">
+                        <div class="inventory-item">
+                            <input type="checkbox" class="checkbox" id="sole-001" onchange="checkInventory('ORD-001')">
+                            <label for="sole-001" data-translate="sole">Rubber Sole (Size 42)</label>
+                        </div>
+                        <div class="inventory-item">
+                            <input type="checkbox" class="checkbox" id="laces-001" onchange="checkInventory('ORD-001')">
+                            <label for="laces-001" data-translate="laces">Waxed Laces (Black)</label>
+                        </div>
+                        <div class="inventory-item">
+                            <input type="checkbox" class="checkbox" id="insole-001" onchange="checkInventory('ORD-001')">
+                            <label for="insole-001" data-translate="insole">Comfort Insole (Size 42)</label>
+                        </div>
+                        <div class="inventory-item">
+                            <input type="checkbox" class="checkbox" id="thread-001" onchange="checkInventory('ORD-001')">
+                            <label for="thread-001" data-translate="thread">Stitching Thread (Black)</label>
                         </div>
                     </div>
+                </div>
 
-                    <div class="work-item" data-order="ORD-002">
-                        <h3>Order: ORD-002</h3>
-                        <p><strong data-translate="model">Model:</strong> Derby Boot</p>
-                        <p><strong data-translate="size">Size:</strong> 40 EU</p>
-                        <p><strong data-translate="quantity">Quantity:</strong> 2 pairs</p>
-                        <div class="stage-buttons">
-                            <button class="btn btn-primary" onclick="updateStage('ORD-002', 'cutting')" data-translate="cutting">Cutting</button>
-                            <button class="btn btn-primary" onclick="updateStage('ORD-002', 'stitching')" data-translate="stitching">Stitching</button>
-                            <button class="btn btn-primary" onclick="updateStage('ORD-002', 'lasting')" data-translate="lasting">Lasting</button>
-                            <button class="btn btn-primary" onclick="updateStage('ORD-002', 'finishing')" data-translate="finishing">Finishing</button>
-                            <button class="btn btn-success" onclick="completeOrder('ORD-002')" data-translate="complete">Complete</button>
-                        </div>
-                        <div class="photo-upload">
-                            <label for="photo-ORD-002">
-                                📷 <span data-translate="uploadPhoto">Upload Photo</span>
+                <button class="btn btn-primary begin-btn" onclick="beginOrder('ORD-001')" disabled id="begin-ORD-001">
+                    <span data-translate="beginProduction">Begin Production</span>
+                </button>
+
+                <div class="stages-section" id="stages-ORD-001" style="display: none;">
+                    <h4 class="stages-title" data-translate="productionStages">Production Stages</h4>
+                    <div class="stages-grid">
+                        <div class="stage-card" id="stage-cutting-ORD-001">
+                            <div class="stage-icon">✂️</div>
+                            <div class="stage-name" data-translate="cutting">Cutting</div>
+                            <div class="stage-status" data-translate="stageReady">Ready to start</div>
+                            <label for="photo-cutting-ORD-001" class="upload-btn" id="upload-cutting-ORD-001">
+                                <span data-translate="uploadPhoto">Upload Photo</span>
                             </label>
-                            <input type="file" id="photo-ORD-002" accept="image/*" onchange="uploadPhoto('ORD-002', this)">
+                            <input type="file" id="photo-cutting-ORD-001" accept="image/*" onchange="uploadPhoto('ORD-001', 'cutting', this)">
+                        </div>
+
+                        <div class="stage-card" id="stage-stitching-ORD-001">
+                            <div class="stage-icon">🧵</div>
+                            <div class="stage-name" data-translate="stitching">Stitching</div>
+                            <div class="stage-status" data-translate="stageLocked">Locked</div>
+                            <label for="photo-stitching-ORD-001" class="upload-btn" id="upload-stitching-ORD-001" style="display: none;">
+                                <span data-translate="uploadPhoto">Upload Photo</span>
+                            </label>
+                            <input type="file" id="photo-stitching-ORD-001" accept="image/*" onchange="uploadPhoto('ORD-001', 'stitching', this)">
+                        </div>
+
+                        <div class="stage-card" id="stage-lasting-ORD-001">
+                            <div class="stage-icon">👞</div>
+                            <div class="stage-name" data-translate="lasting">Lasting</div>
+                            <div class="stage-status" data-translate="stageLocked">Locked</div>
+                            <label for="photo-lasting-ORD-001" class="upload-btn" id="upload-lasting-ORD-001" style="display: none;">
+                                <span data-translate="uploadPhoto">Upload Photo</span>
+                            </label>
+                            <input type="file" id="photo-lasting-ORD-001" accept="image/*" onchange="uploadPhoto('ORD-001', 'lasting', this)">
+                        </div>
+
+                        <div class="stage-card" id="stage-finishing-ORD-001">
+                            <div class="stage-icon">✨</div>
+                            <div class="stage-name" data-translate="finishing">Finishing</div>
+                            <div class="stage-status" data-translate="stageLocked">Locked</div>
+                            <label for="photo-finishing-ORD-001" class="upload-btn" id="upload-finishing-ORD-001" style="display: none;">
+                                <span data-translate="uploadPhoto">Upload Photo</span>
+                            </label>
+                            <input type="file" id="photo-finishing-ORD-001" accept="image/*" onchange="uploadPhoto('ORD-001', 'finishing', this)">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="card">
-                <h2><span class="icon">📅</span> <span data-translate="weeklySchedule">Weekly Schedule</span></h2>
+            <div class="order-card" data-order="ORD-002">
+                <div class="order-header">
+                    <h3 class="order-number">ORD-002</h3>
+                    <span class="order-status pending" data-translate="statusPending">Pending</span>
+                </div>
+                
+                <div class="order-details">
+                    <div class="detail-row">
+                        <span class="detail-label" data-translate="model">Model</span>
+                        <span class="detail-value">Derby Boot</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label" data-translate="size">Size</span>
+                        <span class="detail-value">40 EU</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label" data-translate="quantity">Quantity</span>
+                        <span class="detail-value">2 pairs</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label" data-translate="color">Colour</span>
+                        <span class="detail-value">Brown</span>
+                    </div>
+                </div>
+
+                <div class="inventory-section">
+                    <h4 class="inventory-title">
+                        <span>📦</span>
+                        <span data-translate="confirmInventory">Confirm Inventory</span>
+                    </h4>
+                    <div class="inventory-list">
+                        <div class="inventory-item">
+                            <input type="checkbox" class="checkbox" id="leather-002" onchange="checkInventory('ORD-002')">
+                            <label for="leather-002" data-translate="leather">Premium Leather (Brown)</label>
+                        </div>
+                        <div class="inventory-item">
+                            <input type="checkbox" class="checkbox" id="sole-002" onchange="checkInventory('ORD-002')">
+                            <label for="sole-002" data-translate="sole">Rubber Sole (Size 40)</label>
+                        </div>
+                        <div class="inventory-item">
+                            <input type="checkbox" class="checkbox" id="laces-002" onchange="checkInventory('ORD-002')">
+                            <label for="laces-002" data-translate="laces">Waxed Laces (Brown)</label>
+                        </div>
+                        <div class="inventory-item">
+                            <input type="checkbox" class="checkbox" id="insole-002" onchange="checkInventory('ORD-002')">
+                            <label for="insole-002" data-translate="insole">Comfort Insole (Size 40)</label>
+                        </div>
+                        <div class="inventory-item">
+                            <input type="checkbox" class="checkbox" id="thread-002" onchange="checkInventory('ORD-002')">
+                            <label for="thread-002" data-translate="thread">Stitching Thread (Brown)</label>
+                        </div>
+                        <div class="inventory-item">
+                            <input type="checkbox" class="checkbox" id="hardware-002" onchange="checkInventory('ORD-002')">
+                            <label for="hardware-002" data-translate="hardware">Boot Hardware (4 pairs eyelets)</label>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary begin-btn" onclick="beginOrder('ORD-002')" disabled id="begin-ORD-002">
+                    <span data-translate="beginProduction">Begin Production</span>
+                </button>
+
+                <div class="stages-section" id="stages-ORD-002" style="display: none;">
+                    <h4 class="stages-title" data-translate="productionStages">Production Stages</h4>
+                    <div class="stages-grid">
+                        <div class="stage-card" id="stage-cutting-ORD-002">
+                            <div class="stage-icon">✂️</div>
+                            <div class="stage-name" data-translate="cutting">Cutting</div>
+                            <div class="stage-status" data-translate="stageReady">Ready to start</div>
+                            <label for="photo-cutting-ORD-002" class="upload-btn" id="upload-cutting-ORD-002">
+                                <span data-translate="uploadPhoto">Upload Photo</span>
+                            </label>
+                            <input type="file" id="photo-cutting-ORD-002" accept="image/*" onchange="uploadPhoto('ORD-002', 'cutting', this)">
+                        </div>
+
+                        <div class="stage-card" id="stage-stitching-ORD-002">
+                            <div class="stage-icon">🧵</div>
+                            <div class="stage-name" data-translate="stitching">Stitching</div>
+                            <div class="stage-status" data-translate="stageLocked">Locked</div>
+                            <label for="photo-stitching-ORD-002" class="upload-btn" id="upload-stitching-ORD-002" style="display: none;">
+                                <span data-translate="uploadPhoto">Upload Photo</span>
+                            </label>
+                            <input type="file" id="photo-stitching-ORD-002" accept="image/*" onchange="uploadPhoto('ORD-002', 'stitching', this)">
+                        </div>
+
+                        <div class="stage-card" id="stage-lasting-ORD-002">
+                            <div class="stage-icon">👞</div>
+                            <div class="stage-name" data-translate="lasting">Lasting</div>
+                            <div class="stage-status" data-translate="stageLocked">Locked</div>
+                            <label for="photo-lasting-ORD-002" class="upload-btn" id="upload-lasting-ORD-002" style="display: none;">
+                                <span data-translate="uploadPhoto">Upload Photo</span>
+                            </label>
+                            <input type="file" id="photo-lasting-ORD-002" accept="image/*" onchange="uploadPhoto('ORD-002', 'lasting', this)">
+                        </div>
+
+                        <div class="stage-card" id="stage-finishing-ORD-002">
+                            <div class="stage-icon">✨</div>
+                            <div class="stage-name" data-translate="finishing">Finishing</div>
+                            <div class="stage-status" data-translate="stageLocked">Locked</div>
+                            <label for="photo-finishing-ORD-002" class="upload-btn" id="upload-finishing-ORD-002" style="display: none;">
+                                <span data-translate="uploadPhoto">Upload Photo</span>
+                            </label>
+                            <input type="file" id="photo-finishing-ORD-002" accept="image/*" onchange="uploadPhoto('ORD-002', 'finishing', this)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3><span>📊</span> <span data-translate="dailyProgress">Daily Progress</span></h3>
+                <div class="progress-container">
+                    <div class="progress-info">
+                        <span data-translate="completed">Completed</span>
+                        <span><span id="completedCount">0</span> / <span id="totalCount">2</span></span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <h3><span>📅</span> <span data-translate="weeklySchedule">Weekly Schedule</span></h3>
                 <table class="schedule-table">
                     <thead>
                         <tr>
-                            <th data-translate="monday">Monday</th>
-                            <th data-translate="tuesday">Tuesday</th>
-                            <th data-translate="wednesday">Wednesday</th>
-                            <th data-translate="thursday">Thursday</th>
-                            <th data-translate="friday">Friday</th>
+                            <th data-translate="mon">MON</th>
+                            <th data-translate="tue">TUE</th>
+                            <th data-translate="wed">WED</th>
+                            <th data-translate="thu">THU</th>
+                            <th data-translate="fri">FRI</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -351,22 +791,25 @@
                         </tr>
                     </tbody>
                 </table>
-
-                <h2 style="margin-top: 30px;"><span class="icon">📊</span> <span data-translate="dailyProgress">Daily Progress</span></h2>
-                <p><span data-translate="completed">Completed:</span> <span id="completedCount">0</span> / <span id="totalCount">2</span></p>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill" style="width: 0%">0%</div>
-                </div>
             </div>
         </div>
     </div>
 
-    <div class="modal" id="photoModal">
+    <div class="modal" id="uploadModal">
         <div class="modal-content">
-            <span class="close-modal" onclick="closeModal()">&times;</span>
-            <h2 data-translate="photoUploaded">Photo Uploaded Successfully!</h2>
-            <p data-translate="photoConfirm">Your photo has been saved for this stage.</p>
-            <button class="btn btn-primary" onclick="closeModal()" data-translate="ok">OK</button>
+            <div class="modal-icon">✅</div>
+            <h2 data-translate="photoUploaded">Photo Uploaded</h2>
+            <p data-translate="photoConfirm">Stage photo has been saved successfully</p>
+            <button class="btn btn-primary" onclick="closeModal()" data-translate="continue">Continue</button>
+        </div>
+    </div>
+
+    <div class="modal" id="orderCompleteModal">
+        <div class="modal-content">
+            <div class="modal-icon">🎉</div>
+            <h2 data-translate="orderComplete">Order Complete!</h2>
+            <p data-translate="orderCompleteMsg">Excellent work! This order has been completed.</p>
+            <button class="btn btn-success" onclick="closeModal()" data-translate="continue">Continue</button>
         </div>
     </div>
 
@@ -374,123 +817,218 @@
         // Translation dictionary
         const translations = {
             en: {
-                title: "Shoe Manufacturing Dashboard",
-                date: "Friday, 30 May 2025",
-                welcome: "Welcome, Worker",
+                title: "Manufacturing Dashboard",
+                welcome: "Welcome back",
                 clockIn: "Clock In",
-                todayTasks: "Today's Tasks",
+                clockOut: "Clock Out",
+                todayOrders: "Today's Orders",
                 model: "Model",
                 size: "Size",
                 quantity: "Quantity",
+                color: "Colour",
+                confirmInventory: "Confirm Inventory",
+                leather: "Premium Leather",
+                sole: "Rubber Sole",
+                laces: "Waxed Laces",
+                insole: "Comfort Insole",
+                thread: "Stitching Thread",
+                hardware: "Boot Hardware",
+                beginProduction: "Begin Production",
+                productionStages: "Production Stages",
                 cutting: "Cutting",
                 stitching: "Stitching",
                 lasting: "Lasting",
                 finishing: "Finishing",
-                complete: "Complete",
                 uploadPhoto: "Upload Photo",
-                weeklySchedule: "Weekly Schedule",
-                monday: "Monday",
-                tuesday: "Tuesday",
-                wednesday: "Wednesday",
-                thursday: "Thursday",
-                friday: "Friday",
+                stageReady: "Ready to start",
+                stageLocked: "Locked",
+                stageComplete: "Completed",
+                statusPending: "Pending",
+                statusInProgress: "In Progress",
+                statusCompleted: "Completed",
                 dailyProgress: "Daily Progress",
                 completed: "Completed",
-                photoUploaded: "Photo Uploaded Successfully!",
-                photoConfirm: "Your photo has been saved for this stage.",
-                ok: "OK"
+                weeklySchedule: "Weekly Schedule",
+                mon: "MON",
+                tue: "TUE",
+                wed: "WED",
+                thu: "THU",
+                fri: "FRI",
+                photoUploaded: "Photo Uploaded",
+                photoConfirm: "Stage photo has been saved successfully",
+                continue: "Continue",
+                orderComplete: "Order Complete!",
+                orderCompleteMsg: "Excellent work! This order has been completed."
             },
             es: {
-                title: "Panel de Fabricación de Zapatos",
-                date: "Viernes, 30 de Mayo de 2025",
-                welcome: "Bienvenido, Trabajador",
-                clockIn: "Fichar",
-                todayTasks: "Tareas de Hoy",
+                title: "Panel de Fabricación",
+                welcome: "Bienvenido de nuevo",
+                clockIn: "Fichar Entrada",
+                clockOut: "Fichar Salida",
+                todayOrders: "Pedidos de Hoy",
                 model: "Modelo",
                 size: "Talla",
                 quantity: "Cantidad",
+                color: "Color",
+                confirmInventory: "Confirmar Inventario",
+                leather: "Cuero Premium",
+                sole: "Suela de Goma",
+                laces: "Cordones Encerados",
+                insole: "Plantilla Comfort",
+                thread: "Hilo de Costura",
+                hardware: "Herrajes de Bota",
+                beginProduction: "Iniciar Producción",
+                productionStages: "Etapas de Producción",
                 cutting: "Corte",
                 stitching: "Costura",
                 lasting: "Montado",
                 finishing: "Acabado",
-                complete: "Completar",
                 uploadPhoto: "Subir Foto",
-                weeklySchedule: "Horario Semanal",
-                monday: "Lunes",
-                tuesday: "Martes",
-                wednesday: "Miércoles",
-                thursday: "Jueves",
-                friday: "Viernes",
+                stageReady: "Listo para comenzar",
+                stageLocked: "Bloqueado",
+                stageComplete: "Completado",
+                statusPending: "Pendiente",
+                statusInProgress: "En Progreso",
+                statusCompleted: "Completado",
                 dailyProgress: "Progreso Diario",
                 completed: "Completado",
-                photoUploaded: "¡Foto Subida Exitosamente!",
-                photoConfirm: "Tu foto ha sido guardada para esta etapa.",
-                ok: "OK"
+                weeklySchedule: "Horario Semanal",
+                mon: "LUN",
+                tue: "MAR",
+                wed: "MIÉ",
+                thu: "JUE",
+                fri: "VIE",
+                photoUploaded: "Foto Subida",
+                photoConfirm: "La foto de la etapa se ha guardado exitosamente",
+                continue: "Continuar",
+                orderComplete: "¡Pedido Completo!",
+                orderCompleteMsg: "¡Excelente trabajo! Este pedido ha sido completado."
             },
             zh: {
-                title: "鞋类制造仪表板",
-                date: "2025年5月30日 星期五",
-                welcome: "欢迎，工人",
-                clockIn: "打卡",
-                todayTasks: "今日任务",
+                title: "生产管理面板",
+                welcome: "欢迎回来",
+                clockIn: "上班打卡",
+                clockOut: "下班打卡",
+                todayOrders: "今日订单",
                 model: "型号",
                 size: "尺码",
                 quantity: "数量",
+                color: "颜色",
+                confirmInventory: "确认库存",
+                leather: "优质皮革",
+                sole: "橡胶鞋底",
+                laces: "蜡质鞋带",
+                insole: "舒适鞋垫",
+                thread: "缝纫线",
+                hardware: "靴子五金",
+                beginProduction: "开始生产",
+                productionStages: "生产阶段",
                 cutting: "裁剪",
                 stitching: "缝制",
                 lasting: "定型",
                 finishing: "整理",
-                complete: "完成",
                 uploadPhoto: "上传照片",
-                weeklySchedule: "每周日程",
-                monday: "星期一",
-                tuesday: "星期二",
-                wednesday: "星期三",
-                thursday: "星期四",
-                friday: "星期五",
+                stageReady: "准备开始",
+                stageLocked: "已锁定",
+                stageComplete: "已完成",
+                statusPending: "待处理",
+                statusInProgress: "进行中",
+                statusCompleted: "已完成",
                 dailyProgress: "每日进度",
                 completed: "已完成",
-                photoUploaded: "照片上传成功！",
-                photoConfirm: "您的照片已保存到此阶段。",
-                ok: "确定"
+                weeklySchedule: "每周日程",
+                mon: "周一",
+                tue: "周二",
+                wed: "周三",
+                thu: "周四",
+                fri: "周五",
+                photoUploaded: "照片已上传",
+                photoConfirm: "阶段照片已成功保存",
+                continue: "继续",
+                orderComplete: "订单完成！",
+                orderCompleteMsg: "出色的工作！此订单已完成。"
             },
             pt: {
-                title: "Painel de Fabricação de Sapatos",
-                date: "Sexta-feira, 30 de Maio de 2025",
-                welcome: "Bem-vindo, Trabalhador",
+                title: "Painel de Fabricação",
+                welcome: "Bem-vindo de volta",
                 clockIn: "Registrar Entrada",
-                todayTasks: "Tarefas de Hoje",
+                clockOut: "Registrar Saída",
+                todayOrders: "Pedidos de Hoje",
                 model: "Modelo",
                 size: "Tamanho",
                 quantity: "Quantidade",
+                color: "Cor",
+                confirmInventory: "Confirmar Inventário",
+                leather: "Couro Premium",
+                sole: "Sola de Borracha",
+                laces: "Cadarços Encerados",
+                insole: "Palmilha Comfort",
+                thread: "Linha de Costura",
+                hardware: "Ferragens de Bota",
+                beginProduction: "Iniciar Produção",
+                productionStages: "Etapas de Produção",
                 cutting: "Corte",
                 stitching: "Costura",
                 lasting: "Montagem",
                 finishing: "Acabamento",
-                complete: "Concluir",
                 uploadPhoto: "Enviar Foto",
-                weeklySchedule: "Horário Semanal",
-                monday: "Segunda",
-                tuesday: "Terça",
-                wednesday: "Quarta",
-                thursday: "Quinta",
-                friday: "Sexta",
+                stageReady: "Pronto para começar",
+                stageLocked: "Bloqueado",
+                stageComplete: "Concluído",
+                statusPending: "Pendente",
+                statusInProgress: "Em Progresso",
+                statusCompleted: "Concluído",
                 dailyProgress: "Progresso Diário",
                 completed: "Concluído",
-                photoUploaded: "Foto Enviada com Sucesso!",
-                photoConfirm: "Sua foto foi salva para esta etapa.",
-                ok: "OK"
+                weeklySchedule: "Horário Semanal",
+                mon: "SEG",
+                tue: "TER",
+                wed: "QUA",
+                thu: "QUI",
+                fri: "SEX",
+                photoUploaded: "Foto Enviada",
+                photoConfirm: "A foto da etapa foi salva com sucesso",
+                continue: "Continuar",
+                orderComplete: "Pedido Completo!",
+                orderCompleteMsg: "Excelente trabalho! Este pedido foi concluído."
             }
         };
 
+        // State management
         let currentLanguage = 'en';
         let clockedIn = false;
         let startTime = null;
         let timerInterval = null;
-        let completedTasks = 0;
-        const totalTasks = 2;
+        let completedOrders = 0;
+        const totalOrders = 2;
+        
+        // Order state tracking
+        const orderStates = {
+            'ORD-001': {
+                inventoryChecked: false,
+                started: false,
+                currentStage: null,
+                stages: {
+                    cutting: { completed: false, photo: null },
+                    stitching: { completed: false, photo: null },
+                    lasting: { completed: false, photo: null },
+                    finishing: { completed: false, photo: null }
+                }
+            },
+            'ORD-002': {
+                inventoryChecked: false,
+                started: false,
+                currentStage: null,
+                stages: {
+                    cutting: { completed: false, photo: null },
+                    stitching: { completed: false, photo: null },
+                    lasting: { completed: false, photo: null },
+                    finishing: { completed: false, photo: null }
+                }
+            }
+        };
 
-        // Language change function
+        // Language functions
         function changeLanguage() {
             currentLanguage = document.getElementById('languageSelect').value;
             updateTranslations();
@@ -505,18 +1043,26 @@
             });
         }
 
-        // Clock in function
+        // Clock functions
         function clockIn() {
+            const btn = document.getElementById('clockBtn');
             if (!clockedIn) {
                 clockedIn = true;
                 startTime = new Date();
-                document.querySelector('.btn-warning').textContent = 'Clocked In';
-                document.querySelector('.btn-warning').disabled = true;
+                btn.innerHTML = '<span>⏱</span><span data-translate="clockOut">Clock Out</span>';
+                btn.classList.remove('btn-warning');
+                btn.classList.add('btn-secondary');
                 startTimer();
+            } else {
+                clockedIn = false;
+                btn.innerHTML = '<span>⏱</span><span data-translate="clockIn">Clock In</span>';
+                btn.classList.remove('btn-secondary');
+                btn.classList.add('btn-warning');
+                stopTimer();
             }
+            updateTranslations();
         }
 
-        // Timer function
         function startTimer() {
             timerInterval = setInterval(() => {
                 const now = new Date();
@@ -530,64 +1076,142 @@
             }, 1000);
         }
 
-        // Update stage function
-        function updateStage(orderId, stage) {
-            const workItem = document.querySelector(`[data-order="${orderId}"]`);
-            workItem.classList.add('in-progress');
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                document.getElementById('timer').textContent = '00:00:00';
+            }
+        }
+
+        // Inventory check function
+        function checkInventory(orderId) {
+            const order = document.querySelector(`[data-order="${orderId}"]`);
+            const checkboxes = order.querySelectorAll('.checkbox');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
             
-            // Log stage update (in real app, this would send to server)
-            console.log(`Order ${orderId} - Stage: ${stage} - Time: ${new Date().toLocaleString()}`);
+            const beginBtn = document.getElementById(`begin-${orderId}`);
+            beginBtn.disabled = !allChecked;
             
-            // Visual feedback
-            event.target.style.backgroundColor = '#f39c12';
-            alert(`Stage "${stage}" started for Order ${orderId}`);
+            orderStates[orderId].inventoryChecked = allChecked;
+        }
+
+        // Begin order function
+        function beginOrder(orderId) {
+            orderStates[orderId].started = true;
+            orderStates[orderId].currentStage = 'cutting';
+            
+            // Update UI
+            const order = document.querySelector(`[data-order="${orderId}"]`);
+            const statusBadge = order.querySelector('.order-status');
+            statusBadge.classList.remove('pending');
+            statusBadge.classList.add('in-progress');
+            statusBadge.textContent = translations[currentLanguage].statusInProgress;
+            
+            // Hide inventory and begin button
+            order.querySelector('.inventory-section').style.display = 'none';
+            order.querySelector('.begin-btn').style.display = 'none';
+            
+            // Show stages
+            document.getElementById(`stages-${orderId}`).style.display = 'block';
+            
+            // Activate first stage
+            const firstStage = document.getElementById(`stage-cutting-${orderId}`);
+            firstStage.classList.add('current');
+        }
+
+        // Photo upload function
+        function uploadPhoto(orderId, stage, input) {
+            if (input.files && input.files[0]) {
+                const file = input.files[0];
+                
+                // Store photo reference
+                orderStates[orderId].stages[stage].photo = file.name;
+                
+                // Update UI
+                const uploadBtn = document.getElementById(`upload-${stage}-${orderId}`);
+                uploadBtn.classList.add('uploaded');
+                uploadBtn.innerHTML = '<span>✓ Photo Uploaded</span>';
+                
+                // Mark stage as completed
+                orderStates[orderId].stages[stage].completed = true;
+                const stageCard = document.getElementById(`stage-${stage}-${orderId}`);
+                stageCard.classList.remove('current');
+                stageCard.classList.add('completed');
+                stageCard.querySelector('.stage-status').textContent = translations[currentLanguage].stageComplete;
+                
+                // Show modal
+                document.getElementById('uploadModal').style.display = 'block';
+                
+                // Progress to next stage
+                setTimeout(() => {
+                    progressToNextStage(orderId, stage);
+                }, 500);
+            }
+        }
+
+        // Progress to next stage
+        function progressToNextStage(orderId, currentStage) {
+            const stages = ['cutting', 'stitching', 'lasting', 'finishing'];
+            const currentIndex = stages.indexOf(currentStage);
+            
+            if (currentIndex < stages.length - 1) {
+                const nextStage = stages[currentIndex + 1];
+                orderStates[orderId].currentStage = nextStage;
+                
+                // Activate next stage
+                const nextStageCard = document.getElementById(`stage-${nextStage}-${orderId}`);
+                nextStageCard.classList.add('current');
+                nextStageCard.querySelector('.stage-status').textContent = translations[currentLanguage].stageReady;
+                
+                // Show upload button
+                document.getElementById(`upload-${nextStage}-${orderId}`).style.display = 'block';
+            } else {
+                // Order complete
+                completeOrder(orderId);
+            }
         }
 
         // Complete order function
         function completeOrder(orderId) {
-            const workItem = document.querySelector(`[data-order="${orderId}"]`);
-            workItem.classList.remove('in-progress');
-            workItem.classList.add('completed');
+            const order = document.querySelector(`[data-order="${orderId}"]`);
+            const statusBadge = order.querySelector('.order-status');
+            statusBadge.classList.remove('in-progress');
+            statusBadge.classList.add('completed');
+            statusBadge.textContent = translations[currentLanguage].statusCompleted;
             
-            completedTasks++;
+            completedOrders++;
             updateProgress();
             
-            // Log completion (in real app, this would send to server)
-            console.log(`Order ${orderId} completed at ${new Date().toLocaleString()}`);
-            alert(`Order ${orderId} completed successfully!`);
+            // Show completion modal
+            document.getElementById('orderCompleteModal').style.display = 'block';
         }
 
-        // Update progress bar
+        // Update progress
         function updateProgress() {
-            const percentage = (completedTasks / totalTasks) * 100;
-            document.getElementById('completedCount').textContent = completedTasks;
+            const percentage = (completedOrders / totalOrders) * 100;
+            document.getElementById('completedCount').textContent = completedOrders;
             document.getElementById('progressFill').style.width = percentage + '%';
-            document.getElementById('progressFill').textContent = Math.round(percentage) + '%';
-        }
-
-        // Photo upload function
-        function uploadPhoto(orderId, input) {
-            if (input.files && input.files[0]) {
-                const file = input.files[0];
-                
-                // In real app, this would upload to server
-                console.log(`Photo uploaded for Order ${orderId}: ${file.name}`);
-                
-                // Show success modal
-                document.getElementById('photoModal').style.display = 'block';
-            }
         }
 
         // Modal functions
         function closeModal() {
-            document.getElementById('photoModal').style.display = 'none';
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.style.display = 'none';
+            });
         }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             updateTranslations();
-            document.getElementById('totalCount').textContent = totalTasks;
+            document.getElementById('totalCount').textContent = totalOrders;
         });
+
+        // Close modals on outside click
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
     </script>
 </body>
 </html>
