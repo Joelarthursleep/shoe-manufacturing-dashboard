@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manufacturing Dashboard - Login</title>
+    <title>Manufacturing Dashboard</title>
     <style>
         * {
             margin: 0;
@@ -32,7 +32,7 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Login Screen Styles */
+        /* Login Screen */
         .login-container {
             min-height: 100vh;
             display: flex;
@@ -129,7 +129,7 @@
             cursor: not-allowed;
         }
 
-        /* Dashboard Styles */
+        /* Dashboard */
         .dashboard-container {
             display: none;
         }
@@ -163,12 +163,6 @@
             gap: 16px;
         }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
         .header-content h1 {
             font-size: 34px;
             font-weight: 700;
@@ -189,7 +183,6 @@
             font-size: 15px;
             cursor: pointer;
             outline: none;
-            transition: all 0.2s;
         }
 
         .logout-btn {
@@ -200,11 +193,6 @@
             padding: 8px 16px;
             font-size: 15px;
             cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .logout-btn:hover {
-            background-color: var(--danger-color);
         }
 
         .status-bar {
@@ -217,12 +205,6 @@
             grid-template-columns: 1fr auto auto;
             align-items: center;
             gap: 24px;
-        }
-
-        @media (max-width: 768px) {
-            .status-bar {
-                grid-template-columns: 1fr;
-            }
         }
 
         .worker-info h2 {
@@ -315,11 +297,75 @@
             display: block;
         }
 
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background-color: var(--card-background);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-grid-inner {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .progress-container {
+            margin-top: 20px;
+        }
+
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background-color: var(--background);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--success-color);
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
         .orders-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
             gap: 24px;
-            margin-bottom: 30px;
         }
 
         .order-card {
@@ -328,7 +374,6 @@
             padding: 24px;
             box-shadow: var(--shadow);
             transition: all 0.3s;
-            position: relative;
         }
 
         .order-card:hover {
@@ -336,26 +381,11 @@
             box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
         }
 
-        .order-timer {
-            position: absolute;
-            top: 24px;
-            right: 24px;
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--primary-color);
-            font-variant-numeric: tabular-nums;
-            display: none;
-        }
-
-        .order-timer.active {
-            display: block;
-        }
-
         .order-header {
             display: flex;
             justify-content: space-between;
             align-items: start;
-            margin-bottom: 20px;
+            margin-bottom: 8px;
         }
 
         .order-number {
@@ -385,6 +415,26 @@
         .order-status.completed {
             background-color: #D4EDDA;
             color: #155724;
+        }
+
+        .order-timer-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 16px;
+            font-size: 16px;
+            color: var(--text-secondary);
+        }
+
+        .order-timer {
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--primary-color);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .order-timer.completed {
+            color: var(--success-color);
         }
 
         .order-details {
@@ -537,94 +587,6 @@
             margin-bottom: 30px;
         }
 
-        .weekly-schedule h2 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .week-navigation {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .week-nav-btn {
-            background-color: var(--background);
-            border: none;
-            border-radius: 8px;
-            padding: 8px 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .week-nav-btn:hover {
-            background-color: var(--border-color);
-        }
-
-        .schedule-grid {
-            display: grid;
-            gap: 16px;
-        }
-
-        .day-schedule {
-            background-color: var(--background);
-            border-radius: 12px;
-            padding: 16px;
-            border: 2px solid transparent;
-            transition: all 0.2s;
-        }
-
-        .day-schedule.today {
-            border-color: var(--primary-color);
-            background-color: #E3F2FD;
-        }
-
-        .day-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-
-        .day-name {
-            font-weight: 600;
-            font-size: 18px;
-        }
-
-        .day-date {
-            color: var(--text-secondary);
-            font-size: 14px;
-        }
-
-        .day-orders {
-            display: grid;
-            gap: 8px;
-        }
-
-        .day-order-item {
-            background-color: var(--card-background);
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .order-count {
-            background-color: var(--primary-color);
-            color: white;
-            padding: 4px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
         .issue-button {
             position: fixed;
             bottom: 24px;
@@ -657,12 +619,6 @@
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             z-index: 1000;
-            animation: fadeIn 0.2s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
         }
 
         .modal-content {
@@ -675,20 +631,8 @@
             border-radius: 20px;
             max-width: 500px;
             width: 90%;
-            animation: slideIn 0.3s;
             max-height: 90vh;
             overflow-y: auto;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translate(-50%, -50%) scale(0.9);
-                opacity: 0;
-            }
-            to {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
         }
 
         .modal-header {
@@ -706,21 +650,9 @@
             color: var(--text-secondary);
         }
 
-        .modal-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
-            text-align: center;
-        }
-
         .modal h2 {
             font-size: 24px;
             font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .modal p {
-            color: var(--text-secondary);
-            margin-bottom: 24px;
         }
 
         .issue-types {
@@ -750,32 +682,11 @@
             background-color: #FFE5E5;
         }
 
-        .issue-type-icon {
-            font-size: 24px;
-        }
-
-        .issue-type-text {
-            flex: 1;
-        }
-
-        .issue-type-title {
-            font-weight: 600;
-            margin-bottom: 2px;
-        }
-
-        .issue-type-desc {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        .issue-details {
-            margin-bottom: 24px;
-        }
-
         .issue-details label {
             display: block;
             font-weight: 500;
             margin-bottom: 8px;
+            margin-top: 16px;
         }
 
         .issue-details select,
@@ -786,22 +697,9 @@
             border-radius: 8px;
             font-size: 16px;
             font-family: inherit;
-            transition: all 0.2s;
-        }
-
-        .issue-details select:focus,
-        .issue-details textarea:focus {
-            outline: none;
-            border-color: var(--primary-color);
-        }
-
-        .issue-details textarea {
-            resize: vertical;
-            min-height: 100px;
         }
 
         .material-select {
-            margin-top: 16px;
             display: none;
         }
 
@@ -812,84 +710,24 @@
         .modal-actions {
             display: flex;
             gap: 12px;
+            margin-top: 24px;
         }
 
         .modal-actions button {
             flex: 1;
         }
 
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            margin-bottom: 30px;
-        }
-
-        .stat-card {
-            background-color: var(--card-background);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: var(--shadow);
-        }
-
-        .stat-card h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .progress-container {
-            margin-bottom: 16px;
-        }
-
-        .progress-info {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 8px;
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 8px;
-            background-color: var(--background);
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background-color: var(--success-color);
-            transition: width 0.3s ease;
-            border-radius: 4px;
-        }
-
         @media (max-width: 768px) {
+            .status-bar {
+                grid-template-columns: 1fr;
+            }
+            
             .orders-grid {
                 grid-template-columns: 1fr;
             }
             
             .stages-grid {
                 grid-template-columns: 1fr;
-            }
-            
-            .timer {
-                font-size: 36px;
-            }
-
-            .header-content {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-
-            .issue-button {
-                bottom: 16px;
-                right: 16px;
-                width: 56px;
-                height: 56px;
-                font-size: 24px;
             }
         }
     </style>
@@ -899,8 +737,8 @@
     <div class="login-container" id="loginScreen">
         <div class="login-card">
             <div class="login-logo">👞</div>
-            <h1 data-translate="loginTitle">Manufacturing Login</h1>
-            <p class="login-subtitle" data-translate="loginSubtitle">Select your profile to continue</p>
+            <h1>Manufacturing Login</h1>
+            <p class="login-subtitle">Select your profile to continue</p>
             
             <div class="worker-select">
                 <div class="worker-option" onclick="selectWorker('maria')" data-worker="maria">
@@ -917,7 +755,7 @@
                 </div>
             </div>
             
-            <button class="login-btn" onclick="login()" disabled id="loginBtn" data-translate="loginButton">Login</button>
+            <button class="login-btn" onclick="login()" disabled id="loginBtn">Login</button>
         </div>
     </div>
 
@@ -925,9 +763,7 @@
     <div class="dashboard-container" id="dashboardScreen">
         <header>
             <div class="header-content">
-                <div class="header-left">
-                    <h1 data-translate="title">Manufacturing Dashboard</h1>
-                </div>
+                <h1>Manufacturing Dashboard</h1>
                 <div class="header-actions">
                     <div class="language-selector">
                         <select id="languageSelect" onchange="changeLanguage()">
@@ -937,7 +773,7 @@
                             <option value="pt">Português</option>
                         </select>
                     </div>
-                    <button class="logout-btn" onclick="logout()" data-translate="logout">Logout</button>
+                    <button class="logout-btn" onclick="logout()">Logout</button>
                 </div>
             </div>
         </header>
@@ -951,43 +787,40 @@
                 <div class="timer" id="timer">00:00:00</div>
                 <button class="btn btn-warning" onclick="clockIn()" id="clockBtn">
                     <span>⏱</span>
-                    <span data-translate="clockIn">Clock In</span>
+                    <span>Clock In</span>
                 </button>
             </div>
 
-            <!-- Tab Navigation -->
             <div class="tabs">
-                <button class="tab active" onclick="switchTab('today')" data-translate="todayTab">Today's Orders</button>
-                <button class="tab" onclick="switchTab('week')" data-translate="weekTab">Weekly Schedule</button>
+                <button class="tab active" onclick="switchTab('today')">Today's Orders</button>
+                <button class="tab" onclick="switchTab('week')">Weekly Schedule</button>
             </div>
 
-            <!-- Today's Orders Tab -->
             <div class="tab-content active" id="todayTab">
-                <!-- Daily Statistics -->
-                <div class="stats-grid" style="margin-bottom: 30px;">
+                <div class="stats-grid">
                     <div class="stat-card">
-                        <h3><span>📊</span> <span data-translate="dailyStats">Today's Statistics</span></h3>
-                        <div class="stat-grid-inner" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 16px;">
+                        <h3><span>📊</span> Today's Statistics</h3>
+                        <div class="stat-grid-inner">
                             <div class="stat-item">
-                                <div class="stat-value" id="totalOrdersStat" style="font-size: 32px; font-weight: 700; color: var(--primary-color);">0</div>
-                                <div class="stat-label" data-translate="totalOrders" style="color: var(--text-secondary); font-size: 14px;">Total Orders</div>
+                                <div class="stat-value" id="totalOrdersStat">0</div>
+                                <div class="stat-label">Total Orders</div>
                             </div>
                             <div class="stat-item">
-                                <div class="stat-value" id="inProgressStat" style="font-size: 32px; font-weight: 700; color: var(--warning-color);">0</div>
-                                <div class="stat-label" data-translate="inProgress" style="color: var(--text-secondary); font-size: 14px;">In Progress</div>
+                                <div class="stat-value" id="inProgressStat" style="color: var(--warning-color);">0</div>
+                                <div class="stat-label">In Progress</div>
                             </div>
                             <div class="stat-item">
-                                <div class="stat-value" id="completedStat" style="font-size: 32px; font-weight: 700; color: var(--success-color);">0</div>
-                                <div class="stat-label" data-translate="completed" style="color: var(--text-secondary); font-size: 14px;">Completed</div>
+                                <div class="stat-value" id="completedStat" style="color: var(--success-color);">0</div>
+                                <div class="stat-label">Completed</div>
                             </div>
                             <div class="stat-item">
-                                <div class="stat-value" id="avgTimeStat" style="font-size: 32px; font-weight: 700; color: var(--text-primary);">--:--</div>
-                                <div class="stat-label" data-translate="avgTime" style="color: var(--text-secondary); font-size: 14px;">Avg. Time</div>
+                                <div class="stat-value" id="avgTimeStat" style="color: var(--text-primary);">--:--</div>
+                                <div class="stat-label">Avg. Time</div>
                             </div>
                         </div>
-                        <div class="progress-container" style="margin-top: 20px;">
+                        <div class="progress-container">
                             <div class="progress-info">
-                                <span data-translate="dailyProgress">Daily Progress</span>
+                                <span>Daily Progress</span>
                                 <span><span id="dailyPercentage">0</span>%</span>
                             </div>
                             <div class="progress-bar">
@@ -998,383 +831,97 @@
                 </div>
                 
                 <div class="orders-grid" id="ordersGrid">
-                    <!-- Orders will be populated here based on logged-in worker -->
+                    <!-- Orders will be populated here -->
                 </div>
             </div>
 
-            <!-- Weekly Schedule Tab -->
             <div class="tab-content" id="weekTab">
                 <div class="weekly-schedule">
-                    <h2><span>📅</span> <span data-translate="weeklyWorkload">Weekly Workload</span></h2>
-                    <div class="week-navigation">
-                        <button class="week-nav-btn" onclick="changeWeek(-1)">←</button>
-                        <span id="weekRange">May 26 - June 1, 2025</span>
-                        <button class="week-nav-btn" onclick="changeWeek(1)">→</button>
-                    </div>
-                    <div class="schedule-grid" id="scheduleGrid">
+                    <h2><span>📅</span> Weekly Workload</h2>
+                    <div id="scheduleContent">
                         <!-- Schedule will be populated here -->
-                    </div>
-                </div>
-
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h3><span>📊</span> <span data-translate="weeklyStats">Weekly Statistics</span></h3>
-                        <div class="progress-container">
-                            <div class="progress-info">
-                                <span data-translate="totalOrders">Total Orders</span>
-                                <span id="weeklyTotal">0</span>
-                            </div>
-                            <div class="progress-info">
-                                <span data-translate="completed">Completed</span>
-                                <span id="weeklyCompleted">0</span>
-                            </div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" id="weeklyProgress" style="width: 0%"></div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Report Issue Button -->
         <button class="issue-button" onclick="openIssueModal()">⚠️</button>
     </div>
 
-    <!-- Issue Reporting Modal -->
+    <!-- Issue Modal -->
     <div class="modal" id="issueModal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 data-translate="reportIssue">Report Issue</h2>
+                <h2>Report Issue</h2>
                 <button class="modal-close" onclick="closeModal('issueModal')">×</button>
             </div>
             
             <div class="issue-types">
                 <div class="issue-type" onclick="selectIssueType('stock')" data-issue="stock">
-                    <div class="issue-type-icon">📦</div>
-                    <div class="issue-type-text">
-                        <div class="issue-type-title" data-translate="lowStock">Low Stock</div>
-                        <div class="issue-type-desc" data-translate="lowStockDesc">Materials running low</div>
+                    <span style="font-size: 24px;">📦</span>
+                    <div>
+                        <div style="font-weight: 600;">Low Stock</div>
+                        <div style="font-size: 14px; color: var(--text-secondary);">Materials running low</div>
                     </div>
                 </div>
                 <div class="issue-type" onclick="selectIssueType('mistake')" data-issue="mistake">
-                    <div class="issue-type-icon">❌</div>
-                    <div class="issue-type-text">
-                        <div class="issue-type-title" data-translate="mistake">Production Mistake</div>
-                        <div class="issue-type-desc" data-translate="mistakeDesc">Error in production process</div>
+                    <span style="font-size: 24px;">❌</span>
+                    <div>
+                        <div style="font-weight: 600;">Production Mistake</div>
+                        <div style="font-size: 14px; color: var(--text-secondary);">Error in production process</div>
                     </div>
                 </div>
                 <div class="issue-type" onclick="selectIssueType('delay')" data-issue="delay">
-                    <div class="issue-type-icon">⏰</div>
-                    <div class="issue-type-text">
-                        <div class="issue-type-title" data-translate="delay">Delay</div>
-                        <div class="issue-type-desc" data-translate="delayDesc">Production running behind schedule</div>
+                    <span style="font-size: 24px;">⏰</span>
+                    <div>
+                        <div style="font-weight: 600;">Delay</div>
+                        <div style="font-size: 14px; color: var(--text-secondary);">Production running behind schedule</div>
                     </div>
                 </div>
                 <div class="issue-type" onclick="selectIssueType('other')" data-issue="other">
-                    <div class="issue-type-icon">⚙️</div>
-                    <div class="issue-type-text">
-                        <div class="issue-type-title" data-translate="other">Other Issue</div>
-                        <div class="issue-type-desc" data-translate="otherDesc">Equipment, quality, or other problems</div>
+                    <span style="font-size: 24px;">⚙️</span>
+                    <div>
+                        <div style="font-weight: 600;">Other Issue</div>
+                        <div style="font-size: 14px; color: var(--text-secondary);">Equipment, quality, or other problems</div>
                     </div>
                 </div>
             </div>
 
             <div class="issue-details">
-                <label data-translate="selectOrder">Select Order (Optional)</label>
+                <label>Select Order (Optional)</label>
                 <select id="issueOrder" onchange="updateMaterialsList()">
                     <option value="">None</option>
                 </select>
                 
                 <div class="material-select" id="materialSelect">
-                    <label data-translate="selectMaterial" style="margin-top: 16px;">Select Material</label>
+                    <label>Select Material</label>
                     <select id="issueMaterial">
                         <option value="">Choose material...</option>
                     </select>
                 </div>
                 
-                <label data-translate="description" style="margin-top: 16px;">Description</label>
-                <textarea id="issueDescription" placeholder="Provide details about the issue..."></textarea>
+                <label>Description</label>
+                <textarea id="issueDescription" placeholder="Provide details about the issue..." rows="4"></textarea>
             </div>
 
             <div class="modal-actions">
-                <button class="btn btn-secondary" onclick="closeModal('issueModal')" data-translate="cancel">Cancel</button>
-                <button class="btn btn-danger" onclick="submitIssue()" data-translate="submitIssue">Submit Issue</button>
+                <button class="btn btn-secondary" onclick="closeModal('issueModal')">Cancel</button>
+                <button class="btn btn-danger" onclick="submitIssue()">Submit Issue</button>
             </div>
         </div>
     </div>
 
-    <!-- Photo Upload Modal -->
-    <div class="modal" id="uploadModal">
-        <div class="modal-content">
-            <div class="modal-icon">✅</div>
-            <h2 data-translate="photoUploaded">Photo Uploaded</h2>
-            <p data-translate="photoConfirm">Stage photo has been saved successfully</p>
-            <button class="btn btn-primary" onclick="closeModal('uploadModal')" data-translate="continue">Continue</button>
-        </div>
-    </div>
-
-    <!-- Order Complete Modal -->
-    <div class="modal" id="orderCompleteModal">
-        <div class="modal-content">
-            <div class="modal-icon">🎉</div>
-            <h2 data-translate="orderComplete">Order Complete!</h2>
-            <p data-translate="orderCompleteMsg">Excellent work! This order has been completed.</p>
-            <button class="btn btn-success" onclick="closeModal('orderCompleteModal')" data-translate="continue">Continue</button>
+    <!-- Success Modal -->
+    <div class="modal" id="successModal">
+        <div class="modal-content" style="text-align: center;">
+            <div style="font-size: 64px; margin-bottom: 16px;">✅</div>
+            <h2 id="successTitle">Success</h2>
+            <p id="successMessage" style="color: var(--text-secondary); margin-bottom: 24px;">Operation completed successfully</p>
+            <button class="btn btn-primary" onclick="closeModal('successModal')">Continue</button>
         </div>
     </div>
 
     <script>
-        // Translation dictionary
-        const translations = {
-            en: {
-                loginTitle: "Manufacturing Login",
-                loginSubtitle: "Select your profile to continue",
-                loginButton: "Login",
-                title: "Manufacturing Dashboard",
-                logout: "Logout",
-                welcome: "Welcome back",
-                clockIn: "Clock In",
-                clockOut: "Clock Out",
-                todayTab: "Today's Orders",
-                weekTab: "Weekly Schedule",
-                todayOrders: "Today's Orders",
-                dailyStats: "Today's Statistics",
-                totalOrders: "Total Orders",
-                inProgress: "In Progress",
-                avgTime: "Avg. Time",
-                dailyProgress: "Daily Progress",
-                model: "Model",
-                size: "Size",
-                quantity: "Quantity",
-                color: "Colour",
-                deadline: "Deadline",
-                confirmInventory: "Confirm Inventory",
-                leather: "Premium Leather",
-                sole: "Rubber Sole",
-                laces: "Waxed Laces",
-                insole: "Comfort Insole",
-                thread: "Stitching Thread",
-                hardware: "Boot Hardware",
-                beginProduction: "Begin Production",
-                productionStages: "Production Stages",
-                cutting: "Cutting",
-                stitching: "Stitching",
-                lasting: "Lasting",
-                finishing: "Finishing",
-                uploadPhoto: "Upload Photo",
-                stageReady: "Ready to start",
-                stageLocked: "Locked",
-                stageComplete: "Completed",
-                statusPending: "Pending",
-                statusInProgress: "In Progress",
-                statusCompleted: "Completed",
-                weeklyWorkload: "Weekly Workload",
-                weeklyStats: "Weekly Statistics",
-                totalOrders: "Total Orders",
-                completed: "Completed",
-                reportIssue: "Report Issue",
-                lowStock: "Low Stock",
-                lowStockDesc: "Materials running low",
-                mistake: "Production Mistake",
-                mistakeDesc: "Error in production process",
-                delay: "Delay",
-                delayDesc: "Production running behind schedule",
-                other: "Other Issue",
-                otherDesc: "Equipment, quality, or other problems",
-                selectOrder: "Select Order (Optional)",
-                selectMaterial: "Select Material",
-                description: "Description",
-                cancel: "Cancel",
-                submitIssue: "Submit Issue",
-                photoUploaded: "Photo Uploaded",
-                photoConfirm: "Stage photo has been saved successfully",
-                continue: "Continue",
-                orderComplete: "Order Complete!",
-                orderCompleteMsg: "Excellent work! This order has been completed."
-            },
-            es: {
-                loginTitle: "Inicio de Sesión de Fabricación",
-                loginSubtitle: "Seleccione su perfil para continuar",
-                loginButton: "Iniciar Sesión",
-                title: "Panel de Fabricación",
-                logout: "Cerrar Sesión",
-                welcome: "Bienvenido de nuevo",
-                clockIn: "Fichar Entrada",
-                clockOut: "Fichar Salida",
-                todayTab: "Pedidos de Hoy",
-                weekTab: "Horario Semanal",
-                todayOrders: "Pedidos de Hoy",
-                model: "Modelo",
-                size: "Talla",
-                quantity: "Cantidad",
-                color: "Color",
-                deadline: "Fecha Límite",
-                confirmInventory: "Confirmar Inventario",
-                leather: "Cuero Premium",
-                sole: "Suela de Goma",
-                laces: "Cordones Encerados",
-                insole: "Plantilla Comfort",
-                thread: "Hilo de Costura",
-                hardware: "Herrajes de Bota",
-                beginProduction: "Iniciar Producción",
-                productionStages: "Etapas de Producción",
-                cutting: "Corte",
-                stitching: "Costura",
-                lasting: "Montado",
-                finishing: "Acabado",
-                uploadPhoto: "Subir Foto",
-                stageReady: "Listo para comenzar",
-                stageLocked: "Bloqueado",
-                stageComplete: "Completado",
-                statusPending: "Pendiente",
-                statusInProgress: "En Progreso",
-                statusCompleted: "Completado",
-                weeklyWorkload: "Carga de Trabajo Semanal",
-                weeklyStats: "Estadísticas Semanales",
-                totalOrders: "Total de Pedidos",
-                completed: "Completado",
-                reportIssue: "Reportar Problema",
-                lowStock: "Stock Bajo",
-                lowStockDesc: "Materiales agotándose",
-                mistake: "Error de Producción",
-                mistakeDesc: "Error en el proceso de producción",
-                delay: "Retraso",
-                delayDesc: "Producción retrasada",
-                other: "Otro Problema",
-                otherDesc: "Equipo, calidad u otros problemas",
-                selectOrder: "Seleccionar Pedido (Opcional)",
-                description: "Descripción",
-                cancel: "Cancelar",
-                submitIssue: "Enviar Problema",
-                photoUploaded: "Foto Subida",
-                photoConfirm: "La foto de la etapa se ha guardado exitosamente",
-                continue: "Continuar",
-                orderComplete: "¡Pedido Completo!",
-                orderCompleteMsg: "¡Excelente trabajo! Este pedido ha sido completado."
-            },
-            zh: {
-                loginTitle: "制造登录",
-                loginSubtitle: "选择您的配置文件以继续",
-                loginButton: "登录",
-                title: "生产管理面板",
-                logout: "登出",
-                welcome: "欢迎回来",
-                clockIn: "上班打卡",
-                clockOut: "下班打卡",
-                todayTab: "今日订单",
-                weekTab: "每周日程",
-                todayOrders: "今日订单",
-                model: "型号",
-                size: "尺码",
-                quantity: "数量",
-                color: "颜色",
-                deadline: "截止日期",
-                confirmInventory: "确认库存",
-                leather: "优质皮革",
-                sole: "橡胶鞋底",
-                laces: "蜡质鞋带",
-                insole: "舒适鞋垫",
-                thread: "缝纫线",
-                hardware: "靴子五金",
-                beginProduction: "开始生产",
-                productionStages: "生产阶段",
-                cutting: "裁剪",
-                stitching: "缝制",
-                lasting: "定型",
-                finishing: "整理",
-                uploadPhoto: "上传照片",
-                stageReady: "准备开始",
-                stageLocked: "已锁定",
-                stageComplete: "已完成",
-                statusPending: "待处理",
-                statusInProgress: "进行中",
-                statusCompleted: "已完成",
-                weeklyWorkload: "每周工作量",
-                weeklyStats: "每周统计",
-                totalOrders: "总订单",
-                completed: "已完成",
-                reportIssue: "报告问题",
-                lowStock: "库存不足",
-                lowStockDesc: "材料不足",
-                mistake: "生产错误",
-                mistakeDesc: "生产过程中的错误",
-                delay: "延迟",
-                delayDesc: "生产进度落后",
-                other: "其他问题",
-                otherDesc: "设备、质量或其他问题",
-                selectOrder: "选择订单（可选）",
-                description: "描述",
-                cancel: "取消",
-                submitIssue: "提交问题",
-                photoUploaded: "照片已上传",
-                photoConfirm: "阶段照片已成功保存",
-                continue: "继续",
-                orderComplete: "订单完成！",
-                orderCompleteMsg: "出色的工作！此订单已完成。"
-            },
-            pt: {
-                loginTitle: "Login de Fabricação",
-                loginSubtitle: "Selecione seu perfil para continuar",
-                loginButton: "Entrar",
-                title: "Painel de Fabricação",
-                logout: "Sair",
-                welcome: "Bem-vindo de volta",
-                clockIn: "Registrar Entrada",
-                clockOut: "Registrar Saída",
-                todayTab: "Pedidos de Hoje",
-                weekTab: "Horário Semanal",
-                todayOrders: "Pedidos de Hoje",
-                model: "Modelo",
-                size: "Tamanho",
-                quantity: "Quantidade",
-                color: "Cor",
-                deadline: "Prazo",
-                confirmInventory: "Confirmar Inventário",
-                leather: "Couro Premium",
-                sole: "Sola de Borracha",
-                laces: "Cadarços Encerados",
-                insole: "Palmilha Comfort",
-                thread: "Linha de Costura",
-                hardware: "Ferragens de Bota",
-                beginProduction: "Iniciar Produção",
-                productionStages: "Etapas de Produção",
-                cutting: "Corte",
-                stitching: "Costura",
-                lasting: "Montagem",
-                finishing: "Acabamento",
-                uploadPhoto: "Enviar Foto",
-                stageReady: "Pronto para começar",
-                stageLocked: "Bloqueado",
-                stageComplete: "Concluído",
-                statusPending: "Pendente",
-                statusInProgress: "Em Progresso",
-                statusCompleted: "Concluído",
-                weeklyWorkload: "Carga de Trabalho Semanal",
-                weeklyStats: "Estatísticas Semanais",
-                totalOrders: "Total de Pedidos",
-                completed: "Concluído",
-                reportIssue: "Relatar Problema",
-                lowStock: "Estoque Baixo",
-                lowStockDesc: "Materiais acabando",
-                mistake: "Erro de Produção",
-                mistakeDesc: "Erro no processo de produção",
-                delay: "Atraso",
-                delayDesc: "Produção atrasada",
-                other: "Outro Problema",
-                otherDesc: "Equipamento, qualidade ou outros problemas",
-                selectOrder: "Selecionar Pedido (Opcional)",
-                description: "Descrição",
-                cancel: "Cancelar",
-                submitIssue: "Enviar Problema",
-                photoUploaded: "Foto Enviada",
-                photoConfirm: "A foto da etapa foi salva com sucesso",
-                continue: "Continuar",
-                orderComplete: "Pedido Completo!",
-                orderCompleteMsg: "Excelente trabalho! Este pedido foi concluído."
-            }
-        };
-
         // Worker data
         const workerData = {
             maria: {
@@ -1399,28 +946,7 @@
                         deadline: "Today 7PM",
                         materials: ["Premium Leather (Brown)", "Rubber Sole (Size 40)", "Waxed Laces (Brown)", "Comfort Insole (Size 40)", "Stitching Thread (Brown)", "Boot Hardware (4 pairs eyelets)"]
                     }
-                ],
-                weeklySchedule: {
-                    monday: [
-                        { model: "Loafer", quantity: 3 },
-                        { model: "Oxford", quantity: 2 }
-                    ],
-                    tuesday: [
-                        { model: "Boot", quantity: 2 },
-                        { model: "Sneaker", quantity: 4 }
-                    ],
-                    wednesday: [
-                        { model: "Oxford", quantity: 3 }
-                    ],
-                    thursday: [
-                        { model: "Derby", quantity: 2 },
-                        { model: "Loafer", quantity: 2 }
-                    ],
-                    friday: [
-                        { model: "Oxford", quantity: 1 },
-                        { model: "Boot", quantity: 2 }
-                    ]
-                }
+                ]
             },
             john: {
                 name: "John Chen",
@@ -1434,47 +960,8 @@
                         color: "Tan",
                         deadline: "Today 4PM",
                         materials: ["Premium Leather (Tan)", "Rubber Sole (Size 44)", "Elastic Side Panels", "Comfort Insole (Size 44)", "Stitching Thread (Tan)"]
-                    },
-                    {
-                        id: "ORD-004",
-                        model: "Monk Strap",
-                        size: "41 EU",
-                        quantity: "1 pair",
-                        color: "Burgundy",
-                        deadline: "Today 6PM",
-                        materials: ["Premium Leather (Burgundy)", "Leather Sole (Size 41)", "Metal Buckles (2)", "Comfort Insole (Size 41)", "Stitching Thread (Burgundy)"]
-                    },
-                    {
-                        id: "ORD-005",
-                        model: "Sneaker",
-                        size: "43 EU",
-                        quantity: "3 pairs",
-                        color: "White",
-                        deadline: "Today 8PM",
-                        materials: ["Canvas Material (White)", "Rubber Sole (Size 43)", "Cotton Laces (White)", "Sport Insole (Size 43)", "Stitching Thread (White)"]
                     }
-                ],
-                weeklySchedule: {
-                    monday: [
-                        { model: "Sneaker", quantity: 5 },
-                        { model: "Boot", quantity: 1 }
-                    ],
-                    tuesday: [
-                        { model: "Oxford", quantity: 3 }
-                    ],
-                    wednesday: [
-                        { model: "Monk Strap", quantity: 2 },
-                        { model: "Loafer", quantity: 3 }
-                    ],
-                    thursday: [
-                        { model: "Chelsea Boot", quantity: 2 }
-                    ],
-                    friday: [
-                        { model: "Chelsea Boot", quantity: 1 },
-                        { model: "Monk Strap", quantity: 1 },
-                        { model: "Sneaker", quantity: 3 }
-                    ]
-                }
+                ]
             },
             ahmed: {
                 name: "Ahmed Hassan",
@@ -1487,66 +974,31 @@
                         quantity: "1 pair",
                         color: "Black",
                         deadline: "Today 3PM",
-                        materials: ["Premium Leather (Black)", "Leather Sole (Size 45)", "Waxed Laces (Black)", "Luxury Insole (Size 45)", "Stitching Thread (Black)", "Brogue Punch Tool"]
-                    },
-                    {
-                        id: "ORD-007",
-                        model: "Loafer",
-                        size: "39 EU",
-                        quantity: "2 pairs",
-                        color: "Navy",
-                        deadline: "Today 5PM",
-                        materials: ["Suede Leather (Navy)", "Rubber Sole (Size 39)", "Comfort Insole (Size 39)", "Stitching Thread (Navy)"]
+                        materials: ["Premium Leather (Black)", "Leather Sole (Size 45)", "Waxed Laces (Black)", "Luxury Insole (Size 45)", "Stitching Thread (Black)"]
                     }
-                ],
-                weeklySchedule: {
-                    monday: [
-                        { model: "Derby", quantity: 3 }
-                    ],
-                    tuesday: [
-                        { model: "Brogue", quantity: 2 },
-                        { model: "Loafer", quantity: 2 }
-                    ],
-                    wednesday: [
-                        { model: "Oxford", quantity: 4 }
-                    ],
-                    thursday: [
-                        { model: "Boot", quantity: 1 },
-                        { model: "Sneaker", quantity: 3 }
-                    ],
-                    friday: [
-                        { model: "Brogue", quantity: 1 },
-                        { model: "Loafer", quantity: 2 }
-                    ]
-                }
+                ]
             }
         };
 
-        // State management
-        let currentLanguage = 'en';
+        // Global state
         let currentWorker = null;
+        let selectedWorker = null;
         let clockedIn = false;
         let startTime = null;
         let timerInterval = null;
         let selectedIssueType = null;
-        let currentWeekOffset = 0;
-        
-        // Order tracking
-        const orderStates = {};
-        const orderTimers = {};
-        
-        // Daily statistics
+        let orderStates = {};
+        let orderTimers = {};
         let dailyStats = {
             total: 0,
-            pending: 0,
-            inProgress: 0,
             completed: 0,
-            totalTime: 0,
+            inProgress: 0,
             completedTimes: []
         };
 
-        // Login functions
+        // Worker selection
         function selectWorker(workerId) {
+            selectedWorker = workerId;
             document.querySelectorAll('.worker-option').forEach(option => {
                 option.classList.remove('selected');
             });
@@ -1554,337 +1006,92 @@
             document.getElementById('loginBtn').disabled = false;
         }
 
+        // Login
         function login() {
-            const selectedOption = document.querySelector('.worker-option.selected');
-            if (!selectedOption) return;
-            
-            currentWorker = selectedOption.getAttribute('data-worker');
+            if (!selectedWorker) return;
+            currentWorker = selectedWorker;
             document.getElementById('loginScreen').style.display = 'none';
             document.getElementById('dashboardScreen').style.display = 'block';
-            
             initializeDashboard();
         }
 
+        // Logout
         function logout() {
             currentWorker = null;
+            selectedWorker = null;
             clockedIn = false;
             if (timerInterval) clearInterval(timerInterval);
-            document.getElementById('timer').textContent = '00:00:00';
+            
+            // Clear all order timers
+            Object.keys(orderTimers).forEach(timerId => {
+                if (orderTimers[timerId]) {
+                    clearInterval(orderTimers[timerId]);
+                }
+            });
+            orderTimers = {};
+            
             document.getElementById('dashboardScreen').style.display = 'none';
             document.getElementById('loginScreen').style.display = 'flex';
+            document.getElementById('loginBtn').disabled = true;
             document.querySelectorAll('.worker-option').forEach(option => {
                 option.classList.remove('selected');
             });
-            document.getElementById('loginBtn').disabled = true;
         }
 
-        // Initialize dashboard for logged-in worker
+        // Initialize dashboard
         function initializeDashboard() {
             const worker = workerData[currentWorker];
             document.getElementById('workerName').textContent = `Welcome back, ${worker.name.split(' ')[0]}`;
             document.getElementById('workerId').textContent = worker.id;
             
-            loadTodayOrders();
-            loadWeeklySchedule();
+            // Reset stats
+            dailyStats = {
+                total: worker.todayOrders.length,
+                completed: 0,
+                inProgress: 0,
+                completedTimes: []
+            };
             
             // Initialize order states
+            orderStates = {};
             worker.todayOrders.forEach(order => {
                 orderStates[order.id] = {
-                    inventoryChecked: false,
                     started: false,
+                    completed: false,
                     startTime: null,
                     endTime: null,
                     currentStage: null,
                     stages: {
-                        cutting: { completed: false, photo: null },
-                        stitching: { completed: false, photo: null },
-                        lasting: { completed: false, photo: null },
-                        finishing: { completed: false, photo: null }
+                        cutting: false,
+                        stitching: false,
+                        lasting: false,
+                        finishing: false
                     },
                     materials: order.materials
                 };
             });
             
-            updateDailyStats();
-            updateTranslations();
-        }
-        
-        // Update daily statistics
-        function updateDailyStats() {
-            const worker = workerData[currentWorker];
-            dailyStats.total = worker.todayOrders.length;
-            dailyStats.pending = 0;
-            dailyStats.inProgress = 0;
-            dailyStats.completed = 0;
-            
-            // Count order statuses
-            worker.todayOrders.forEach(order => {
-                const state = orderStates[order.id];
-                if (!state.started) {
-                    dailyStats.pending++;
-                } else if (state.endTime) {
-                    dailyStats.completed++;
-                } else {
-                    dailyStats.inProgress++;
-                }
-            });
-            
-            // Update UI
-            document.getElementById('totalOrdersStat').textContent = dailyStats.total;
-            document.getElementById('inProgressStat').textContent = dailyStats.inProgress;
-            document.getElementById('completedStat').textContent = dailyStats.completed;
-            
-            // Calculate average time
-            if (dailyStats.completedTimes.length > 0) {
-                const avgMs = dailyStats.completedTimes.reduce((a, b) => a + b, 0) / dailyStats.completedTimes.length;
-                const avgHours = Math.floor(avgMs / 3600000);
-                const avgMinutes = Math.floor((avgMs % 3600000) / 60000);
-                document.getElementById('avgTimeStat').textContent = `${avgHours}:${avgMinutes.toString().padStart(2, '0')}`;
-            } else {
-                document.getElementById('avgTimeStat').textContent = '--:--';
-            }
-            
-            // Update progress bar
-            const percentage = dailyStats.total > 0 ? (dailyStats.completed / dailyStats.total) * 100 : 0;
-            document.getElementById('dailyPercentage').textContent = Math.round(percentage);
-            document.getElementById('dailyProgressBar').style.width = percentage + '%';
+            loadOrders();
+            updateStats();
         }
 
-        // Load today's orders for the worker
-        function loadTodayOrders() {
-            const worker = workerData[currentWorker];
-            const ordersGrid = document.getElementById('ordersGrid');
-            ordersGrid.innerHTML = '';
-            
-            // Update issue modal order dropdown
-            const issueOrderSelect = document.getElementById('issueOrder');
-            issueOrderSelect.innerHTML = '<option value="">None</option>';
-            
-            worker.todayOrders.forEach(order => {
-                // Add to issue dropdown
-                issueOrderSelect.innerHTML += `<option value="${order.id}">${order.id} - ${order.model}</option>`;
-                
-                // Create order card HTML
-                const orderCard = document.createElement('div');
-                orderCard.className = 'order-card';
-                orderCard.setAttribute('data-order', order.id);
-                
-                orderCard.innerHTML = `
-                    <div class="order-header">
-                        <h3 class="order-number">${order.id}</h3>
-                        <span class="order-status pending" data-translate="statusPending">Pending</span>
-                    </div>
-                    
-                    <div class="order-timer" id="timer-${order.id}">00:00:00</div>
-                    
-                    <div class="order-details">
-                        <div class="detail-row">
-                            <span class="detail-label" data-translate="model">Model</span>
-                            <span class="detail-value">${order.model}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label" data-translate="size">Size</span>
-                            <span class="detail-value">${order.size}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label" data-translate="quantity">Quantity</span>
-                            <span class="detail-value">${order.quantity}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label" data-translate="color">Colour</span>
-                            <span class="detail-value">${order.color}</span>
-                        </div>
-                        <div class="detail-row">
-                            <span class="detail-label" data-translate="deadline">Deadline</span>
-                            <span class="detail-value" style="color: var(--danger-color); font-weight: 600;">${order.deadline}</span>
-                        </div>
-                    </div>
-
-                    <div class="inventory-section">
-                        <h4 class="inventory-title">
-                            <span>📦</span>
-                            <span data-translate="confirmInventory">Confirm Inventory</span>
-                        </h4>
-                        <div class="inventory-list">
-                            ${order.materials.map((material, index) => `
-                                <div class="inventory-item">
-                                    <input type="checkbox" class="checkbox" id="${order.id}-mat-${index}" onchange="checkInventory('${order.id}')">
-                                    <label for="${order.id}-mat-${index}">${material}</label>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-
-                    <button class="btn btn-primary begin-btn" onclick="beginOrder('${order.id}')" disabled id="begin-${order.id}">
-                        <span data-translate="beginProduction">Begin Production</span>
-                    </button>
-
-                    <div class="stages-section" id="stages-${order.id}" style="display: none;">
-                        <h4 class="stages-title" data-translate="productionStages">Production Stages</h4>
-                        <div class="stages-grid">
-                            <div class="stage-card" id="stage-cutting-${order.id}">
-                                <div class="stage-icon">✂️</div>
-                                <div class="stage-name" data-translate="cutting">Cutting</div>
-                                <div class="stage-status" data-translate="stageReady">Ready to start</div>
-                                <label for="photo-cutting-${order.id}" class="upload-btn" id="upload-cutting-${order.id}">
-                                    <span data-translate="uploadPhoto">Upload Photo</span>
-                                </label>
-                                <input type="file" id="photo-cutting-${order.id}" accept="image/*" onchange="uploadPhoto('${order.id}', 'cutting', this)">
-                            </div>
-
-                            <div class="stage-card" id="stage-stitching-${order.id}">
-                                <div class="stage-icon">🧵</div>
-                                <div class="stage-name" data-translate="stitching">Stitching</div>
-                                <div class="stage-status" data-translate="stageLocked">Locked</div>
-                                <label for="photo-stitching-${order.id}" class="upload-btn" id="upload-stitching-${order.id}" style="display: none;">
-                                    <span data-translate="uploadPhoto">Upload Photo</span>
-                                </label>
-                                <input type="file" id="photo-stitching-${order.id}" accept="image/*" onchange="uploadPhoto('${order.id}', 'stitching', this)">
-                            </div>
-
-                            <div class="stage-card" id="stage-lasting-${order.id}">
-                                <div class="stage-icon">👞</div>
-                                <div class="stage-name" data-translate="lasting">Lasting</div>
-                                <div class="stage-status" data-translate="stageLocked">Locked</div>
-                                <label for="photo-lasting-${order.id}" class="upload-btn" id="upload-lasting-${order.id}" style="display: none;">
-                                    <span data-translate="uploadPhoto">Upload Photo</span>
-                                </label>
-                                <input type="file" id="photo-lasting-${order.id}" accept="image/*" onchange="uploadPhoto('${order.id}', 'lasting', this)">
-                            </div>
-
-                            <div class="stage-card" id="stage-finishing-${order.id}">
-                                <div class="stage-icon">✨</div>
-                                <div class="stage-name" data-translate="finishing">Finishing</div>
-                                <div class="stage-status" data-translate="stageLocked">Locked</div>
-                                <label for="photo-finishing-${order.id}" class="upload-btn" id="upload-finishing-${order.id}" style="display: none;">
-                                    <span data-translate="uploadPhoto">Upload Photo</span>
-                                </label>
-                                <input type="file" id="photo-finishing-${order.id}" accept="image/*" onchange="uploadPhoto('${order.id}', 'finishing', this)">
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                ordersGrid.appendChild(orderCard);
-            });
-            
-            updateTranslations();
-        }
-
-        // Load weekly schedule
-        function loadWeeklySchedule() {
-            const worker = workerData[currentWorker];
-            const scheduleGrid = document.getElementById('scheduleGrid');
-            scheduleGrid.innerHTML = '';
-            
-            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
-            const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-            const today = new Date().getDay();
-            
-            let totalOrders = 0;
-            let completedOrders = 0;
-            
-            days.forEach((day, index) => {
-                const daySchedule = worker.weeklySchedule[day] || [];
-                const isToday = (index + 1) === today;
-                
-                const dayCard = document.createElement('div');
-                dayCard.className = `day-schedule ${isToday ? 'today' : ''}`;
-                
-                const orderCount = daySchedule.reduce((sum, item) => sum + item.quantity, 0);
-                totalOrders += orderCount;
-                
-                // Get current date for the week
-                const currentDate = new Date();
-                currentDate.setDate(currentDate.getDate() - currentDate.getDay() + index + 1 + (currentWeekOffset * 7));
-                const dateStr = currentDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
-                
-                dayCard.innerHTML = `
-                    <div class="day-header">
-                        <span class="day-name">${dayNames[index]}</span>
-                        <span class="day-date">${dateStr}</span>
-                    </div>
-                    <div class="day-orders">
-                        ${daySchedule.length > 0 ? daySchedule.map(item => `
-                            <div class="day-order-item">
-                                <span>${item.model}</span>
-                                <span class="order-count">${item.quantity}</span>
-                            </div>
-                        `).join('') : '<div class="day-order-item" style="color: var(--text-secondary);">No orders scheduled</div>'}
-                    </div>
-                `;
-                
-                scheduleGrid.appendChild(dayCard);
-            });
-            
-            // Update week range
-            const weekStart = new Date();
-            weekStart.setDate(weekStart.getDate() - weekStart.getDay() + 1 + (currentWeekOffset * 7));
-            const weekEnd = new Date(weekStart);
-            weekEnd.setDate(weekEnd.getDate() + 6);
-            
-            document.getElementById('weekRange').textContent = 
-                `${weekStart.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} - ${weekEnd.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`;
-            
-            // Update weekly stats
-            document.getElementById('weeklyTotal').textContent = totalOrders;
-            document.getElementById('weeklyCompleted').textContent = completedOrders;
-            document.getElementById('weeklyProgress').style.width = '0%';
-        }
-
-        // Change week navigation
-        function changeWeek(direction) {
-            currentWeekOffset += direction;
-            loadWeeklySchedule();
-        }
-
-        // Tab switching
-        function switchTab(tab) {
-            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-            
-            if (tab === 'today') {
-                document.querySelectorAll('.tab')[0].classList.add('active');
-                document.getElementById('todayTab').classList.add('active');
-            } else {
-                document.querySelectorAll('.tab')[1].classList.add('active');
-                document.getElementById('weekTab').classList.add('active');
-            }
-        }
-
-        // Language functions
-        function changeLanguage() {
-            currentLanguage = document.getElementById('languageSelect').value;
-            updateTranslations();
-        }
-
-        function updateTranslations() {
-            document.querySelectorAll('[data-translate]').forEach(element => {
-                const key = element.getAttribute('data-translate');
-                if (translations[currentLanguage][key]) {
-                    element.textContent = translations[currentLanguage][key];
-                }
-            });
-        }
-
-        // Clock functions
+        // Clock in/out
         function clockIn() {
             const btn = document.getElementById('clockBtn');
             if (!clockedIn) {
                 clockedIn = true;
                 startTime = new Date();
-                btn.innerHTML = '<span>⏱</span><span data-translate="clockOut">Clock Out</span>';
+                btn.innerHTML = '<span>⏱</span><span>Clock Out</span>';
                 btn.classList.remove('btn-warning');
                 btn.classList.add('btn-secondary');
                 startTimer();
             } else {
                 clockedIn = false;
-                btn.innerHTML = '<span>⏱</span><span data-translate="clockIn">Clock In</span>';
+                btn.innerHTML = '<span>⏱</span><span>Clock In</span>';
                 btn.classList.remove('btn-secondary');
                 btn.classList.add('btn-warning');
                 stopTimer();
             }
-            updateTranslations();
         }
 
         function startTimer() {
@@ -1894,7 +1101,6 @@
                 const hours = Math.floor(diff / 3600000);
                 const minutes = Math.floor((diff % 3600000) / 60000);
                 const seconds = Math.floor((diff % 60000) / 1000);
-                
                 document.getElementById('timer').textContent = 
                     `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }, 1000);
@@ -1907,51 +1113,168 @@
             }
         }
 
-        // Inventory check function
-        function checkInventory(orderId) {
-            const order = document.querySelector(`[data-order="${orderId}"]`);
-            const checkboxes = order.querySelectorAll('.checkbox');
-            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+        // Load orders
+        function loadOrders() {
+            const worker = workerData[currentWorker];
+            const ordersGrid = document.getElementById('ordersGrid');
+            const issueOrderSelect = document.getElementById('issueOrder');
             
-            const beginBtn = document.getElementById(`begin-${orderId}`);
-            beginBtn.disabled = !allChecked;
+            ordersGrid.innerHTML = '';
+            issueOrderSelect.innerHTML = '<option value="">None</option>';
+            
+            worker.todayOrders.forEach(order => {
+                // Add to issue dropdown
+                const option = document.createElement('option');
+                option.value = order.id;
+                option.textContent = `${order.id} - ${order.model}`;
+                issueOrderSelect.appendChild(option);
+                
+                // Create order card
+                const orderCard = createOrderCard(order);
+                ordersGrid.appendChild(orderCard);
+            });
         }
 
-        // Begin order function
-        function beginOrder(orderId) {
-            // Start order timer
-            orderStates[orderId].started = true;
-            orderStates[orderId].startTime = new Date();
-            orderStates[orderId].currentStage = 'cutting';
+        // Create order card
+        function createOrderCard(order) {
+            const div = document.createElement('div');
+            div.className = 'order-card';
+            div.setAttribute('data-order', order.id);
             
-            // Start visual timer
-            startOrderTimer(orderId);
+            div.innerHTML = `
+                <div class="order-header">
+                    <h3 class="order-number">${order.id}</h3>
+                    <span class="order-status pending" id="status-${order.id}">Pending</span>
+                </div>
+                
+                <div class="order-timer-container" id="timer-container-${order.id}" style="display: none;">
+                    <span>⏱</span>
+                    <span class="order-timer" id="timer-${order.id}">00:00:00</span>
+                </div>
+                
+                <div class="order-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Model</span>
+                        <span class="detail-value">${order.model}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Size</span>
+                        <span class="detail-value">${order.size}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Quantity</span>
+                        <span class="detail-value">${order.quantity}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Colour</span>
+                        <span class="detail-value">${order.color}</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Deadline</span>
+                        <span class="detail-value" style="color: var(--danger-color); font-weight: 600;">${order.deadline}</span>
+                    </div>
+                </div>
+
+                <div class="inventory-section" id="inventory-${order.id}">
+                    <h4 class="inventory-title">
+                        <span>📦</span>
+                        <span>Confirm Inventory</span>
+                    </h4>
+                    <div class="inventory-list">
+                        ${order.materials.map((material, index) => `
+                            <div class="inventory-item">
+                                <input type="checkbox" class="checkbox" id="${order.id}-mat-${index}" onchange="checkInventory('${order.id}')">
+                                <label for="${order.id}-mat-${index}">${material}</label>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <button class="btn btn-primary begin-btn" onclick="beginOrder('${order.id}')" disabled id="begin-${order.id}">
+                    Begin Production
+                </button>
+
+                <div class="stages-section" id="stages-${order.id}" style="display: none;">
+                    <h4 class="stages-title">Production Stages</h4>
+                    <div class="stages-grid">
+                        <div class="stage-card" id="stage-cutting-${order.id}">
+                            <div class="stage-icon">✂️</div>
+                            <div class="stage-name">Cutting</div>
+                            <div class="stage-status">Ready to start</div>
+                            <label for="photo-cutting-${order.id}" class="upload-btn" id="upload-cutting-${order.id}">
+                                Upload Photo
+                            </label>
+                            <input type="file" id="photo-cutting-${order.id}" accept="image/*" onchange="uploadPhoto('${order.id}', 'cutting', this)">
+                        </div>
+
+                        <div class="stage-card" id="stage-stitching-${order.id}">
+                            <div class="stage-icon">🧵</div>
+                            <div class="stage-name">Stitching</div>
+                            <div class="stage-status">Locked</div>
+                            <label for="photo-stitching-${order.id}" class="upload-btn" id="upload-stitching-${order.id}" style="display: none;">
+                                Upload Photo
+                            </label>
+                            <input type="file" id="photo-stitching-${order.id}" accept="image/*" onchange="uploadPhoto('${order.id}', 'stitching', this)">
+                        </div>
+
+                        <div class="stage-card" id="stage-lasting-${order.id}">
+                            <div class="stage-icon">👞</div>
+                            <div class="stage-name">Lasting</div>
+                            <div class="stage-status">Locked</div>
+                            <label for="photo-lasting-${order.id}" class="upload-btn" id="upload-lasting-${order.id}" style="display: none;">
+                                Upload Photo
+                            </label>
+                            <input type="file" id="photo-lasting-${order.id}" accept="image/*" onchange="uploadPhoto('${order.id}', 'lasting', this)">
+                        </div>
+
+                        <div class="stage-card" id="stage-finishing-${order.id}">
+                            <div class="stage-icon">✨</div>
+                            <div class="stage-name">Finishing</div>
+                            <div class="stage-status">Locked</div>
+                            <label for="photo-finishing-${order.id}" class="upload-btn" id="upload-finishing-${order.id}" style="display: none;">
+                                Upload Photo
+                            </label>
+                            <input type="file" id="photo-finishing-${order.id}" accept="image/*" onchange="uploadPhoto('${order.id}', 'finishing', this)">
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            return div;
+        }
+
+        // Check inventory
+        function checkInventory(orderId) {
+            const checkboxes = document.querySelectorAll(`#inventory-${orderId} .checkbox`);
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            document.getElementById(`begin-${orderId}`).disabled = !allChecked;
+        }
+
+        // Begin order
+        function beginOrder(orderId) {
+            const state = orderStates[orderId];
+            state.started = true;
+            state.startTime = new Date();
+            state.currentStage = 'cutting';
             
             // Update UI
-            const order = document.querySelector(`[data-order="${orderId}"]`);
-            const statusBadge = order.querySelector('.order-status');
-            statusBadge.classList.remove('pending');
-            statusBadge.classList.add('in-progress');
-            statusBadge.textContent = translations[currentLanguage].statusInProgress;
-            
-            // Show timer
-            document.getElementById(`timer-${orderId}`).classList.add('active');
-            
-            // Hide inventory and begin button
-            order.querySelector('.inventory-section').style.display = 'none';
-            order.querySelector('.begin-btn').style.display = 'none';
-            
-            // Show stages
+            document.getElementById(`status-${orderId}`).className = 'order-status in-progress';
+            document.getElementById(`status-${orderId}`).textContent = 'In Progress';
+            document.getElementById(`timer-container-${orderId}`).style.display = 'flex';
+            document.getElementById(`inventory-${orderId}`).style.display = 'none';
+            document.getElementById(`begin-${orderId}`).style.display = 'none';
             document.getElementById(`stages-${orderId}`).style.display = 'block';
+            document.getElementById(`stage-cutting-${orderId}`).classList.add('current');
             
-            // Activate first stage
-            const firstStage = document.getElementById(`stage-cutting-${orderId}`);
-            firstStage.classList.add('current');
+            // Start timer
+            startOrderTimer(orderId);
             
-            updateDailyStats();
+            // Update stats
+            dailyStats.inProgress++;
+            updateStats();
         }
-        
-        // Start individual order timer
+
+        // Start order timer
         function startOrderTimer(orderId) {
             orderTimers[orderId] = setInterval(() => {
                 const state = orderStates[orderId];
@@ -1968,93 +1291,117 @@
             }, 1000);
         }
 
-        // Photo upload function
+        // Upload photo
         function uploadPhoto(orderId, stage, input) {
             if (input.files && input.files[0]) {
-                const file = input.files[0];
-                
-                // Store photo reference
-                orderStates[orderId].stages[stage].photo = file.name;
-                orderStates[orderId].stages[stage].completed = true;
+                const state = orderStates[orderId];
+                state.stages[stage] = true;
                 
                 // Update UI
-                const uploadBtn = document.getElementById(`upload-${stage}-${orderId}`);
-                uploadBtn.classList.add('uploaded');
-                uploadBtn.innerHTML = '<span>✓ Photo Uploaded</span>';
-                
-                // Mark stage as completed
-                const stageCard = document.getElementById(`stage-${stage}-${orderId}`);
-                stageCard.classList.remove('current');
-                stageCard.classList.add('completed');
-                stageCard.querySelector('.stage-status').textContent = translations[currentLanguage].stageComplete;
-                
-                // Show modal
-                document.getElementById('uploadModal').style.display = 'block';
+                document.getElementById(`upload-${stage}-${orderId}`).classList.add('uploaded');
+                document.getElementById(`upload-${stage}-${orderId}`).textContent = '✓ Photo Uploaded';
+                document.getElementById(`stage-${stage}-${orderId}`).classList.remove('current');
+                document.getElementById(`stage-${stage}-${orderId}`).classList.add('completed');
                 
                 // Progress to next stage
-                setTimeout(() => {
-                    progressToNextStage(orderId, stage);
-                }, 500);
+                const stages = ['cutting', 'stitching', 'lasting', 'finishing'];
+                const currentIndex = stages.indexOf(stage);
+                
+                if (currentIndex < stages.length - 1) {
+                    const nextStage = stages[currentIndex + 1];
+                    state.currentStage = nextStage;
+                    document.getElementById(`stage-${nextStage}-${orderId}`).classList.add('current');
+                    document.getElementById(`upload-${nextStage}-${orderId}`).style.display = 'block';
+                    
+                    const stageStatus = document.querySelector(`#stage-${nextStage}-${orderId} .stage-status`);
+                    stageStatus.textContent = 'Ready to start';
+                } else {
+                    // Order complete
+                    completeOrder(orderId);
+                }
+                
+                // Show success
+                document.getElementById('successTitle').textContent = 'Photo Uploaded';
+                document.getElementById('successMessage').textContent = 'Stage photo has been saved successfully';
+                document.getElementById('successModal').style.display = 'block';
             }
         }
 
-        // Progress to next stage
-        function progressToNextStage(orderId, currentStage) {
-            const stages = ['cutting', 'stitching', 'lasting', 'finishing'];
-            const currentIndex = stages.indexOf(currentStage);
-            
-            if (currentIndex < stages.length - 1) {
-                const nextStage = stages[currentIndex + 1];
-                orderStates[orderId].currentStage = nextStage;
-                
-                // Activate next stage
-                const nextStageCard = document.getElementById(`stage-${nextStage}-${orderId}`);
-                nextStageCard.classList.add('current');
-                nextStageCard.querySelector('.stage-status').textContent = translations[currentLanguage].stageReady;
-                
-                // Show upload button
-                document.getElementById(`upload-${nextStage}-${orderId}`).style.display = 'block';
-            } else {
-                // Order complete
-                completeOrder(orderId);
-            }
-        }
-
-        // Complete order function
+        // Complete order
         function completeOrder(orderId) {
-            // Stop timer and record completion time
-            orderStates[orderId].endTime = new Date();
-            const completionTime = orderStates[orderId].endTime - orderStates[orderId].startTime;
-            dailyStats.completedTimes.push(completionTime);
+            const state = orderStates[orderId];
+            state.completed = true;
+            state.endTime = new Date();
             
-            // Stop visual timer
+            // Stop timer
             if (orderTimers[orderId]) {
                 clearInterval(orderTimers[orderId]);
             }
             
-            const order = document.querySelector(`[data-order="${orderId}"]`);
-            const statusBadge = order.querySelector('.order-status');
-            statusBadge.classList.remove('in-progress');
-            statusBadge.classList.add('completed');
-            statusBadge.textContent = translations[currentLanguage].statusCompleted;
+            // Calculate completion time
+            const completionTime = state.endTime - state.startTime;
+            dailyStats.completedTimes.push(completionTime);
             
-            // Update timer color to green
-            document.getElementById(`timer-${orderId}`).style.color = 'var(--success-color)';
+            // Update UI
+            document.getElementById(`status-${orderId}`).className = 'order-status completed';
+            document.getElementById(`status-${orderId}`).textContent = 'Completed';
+            document.getElementById(`timer-${orderId}`).classList.add('completed');
             
-            updateDailyStats();
+            // Update stats
+            dailyStats.inProgress--;
+            dailyStats.completed++;
+            updateStats();
             
-            // Show completion modal
-            document.getElementById('orderCompleteModal').style.display = 'block';
+            // Show success
+            document.getElementById('successTitle').textContent = 'Order Complete!';
+            document.getElementById('successMessage').textContent = 'Excellent work! This order has been completed.';
+            document.getElementById('successModal').style.display = 'block';
         }
 
-        // Issue reporting functions
+        // Update statistics
+        function updateStats() {
+            document.getElementById('totalOrdersStat').textContent = dailyStats.total;
+            document.getElementById('inProgressStat').textContent = dailyStats.inProgress;
+            document.getElementById('completedStat').textContent = dailyStats.completed;
+            
+            // Calculate average time
+            if (dailyStats.completedTimes.length > 0) {
+                const avgMs = dailyStats.completedTimes.reduce((a, b) => a + b, 0) / dailyStats.completedTimes.length;
+                const avgHours = Math.floor(avgMs / 3600000);
+                const avgMinutes = Math.floor((avgMs % 3600000) / 60000);
+                document.getElementById('avgTimeStat').textContent = 
+                    `${avgHours.toString().padStart(2, '0')}:${avgMinutes.toString().padStart(2, '0')}`;
+            } else {
+                document.getElementById('avgTimeStat').textContent = '--:--';
+            }
+            
+            // Update progress bar
+            const percentage = dailyStats.total > 0 ? (dailyStats.completed / dailyStats.total) * 100 : 0;
+            document.getElementById('dailyPercentage').textContent = Math.round(percentage);
+            document.getElementById('dailyProgressBar').style.width = percentage + '%';
+        }
+
+        // Tab switching
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            if (tab === 'today') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('todayTab').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('weekTab').classList.add('active');
+            }
+        }
+
+        // Issue reporting
         function openIssueModal() {
             document.getElementById('issueModal').style.display = 'block';
             selectedIssueType = null;
             document.querySelectorAll('.issue-type').forEach(type => {
                 type.classList.remove('selected');
             });
-            document.getElementById('issueDescription').value = '';
             document.getElementById('materialSelect').classList.remove('show');
         }
 
@@ -2065,7 +1412,6 @@
             });
             document.querySelector(`[data-issue="${type}"]`).classList.add('selected');
             
-            // Show material select for low stock issues
             if (type === 'stock') {
                 document.getElementById('materialSelect').classList.add('show');
                 updateMaterialsList();
@@ -2073,7 +1419,7 @@
                 document.getElementById('materialSelect').classList.remove('show');
             }
         }
-        
+
         function updateMaterialsList() {
             const orderId = document.getElementById('issueOrder').value;
             const materialSelect = document.getElementById('issueMaterial');
@@ -2110,21 +1456,11 @@
                 return;
             }
             
-            // In a real app, this would send to server
-            const issueReport = {
-                worker: currentWorker,
-                workerName: workerData[currentWorker].name,
-                type: selectedIssueType,
-                order: order,
-                material: selectedIssueType === 'stock' ? material : null,
-                description: description,
-                timestamp: new Date().toISOString()
-            };
-            
-            console.log('Issue reported:', issueReport);
-            
-            alert('Issue reported successfully! Management will be notified.');
+            // Show success
+            document.getElementById('successTitle').textContent = 'Issue Reported';
+            document.getElementById('successMessage').textContent = 'Management has been notified of the issue.';
             closeModal('issueModal');
+            document.getElementById('successModal').style.display = 'block';
         }
 
         // Modal functions
@@ -2132,10 +1468,11 @@
             document.getElementById(modalId).style.display = 'none';
         }
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            updateTranslations();
-        });
+        // Language change
+        function changeLanguage() {
+            // Implementation for language change would go here
+            console.log('Language changed to:', document.getElementById('languageSelect').value);
+        }
 
         // Close modals on outside click
         window.onclick = function(event) {
