@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manufacturing Dashboard</title>
+    <title>Manufacturing Dashboard - Login</title>
     <style>
         * {
             margin: 0;
@@ -32,6 +32,108 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* Login Screen Styles */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-card {
+            background-color: var(--card-background);
+            border-radius: 20px;
+            padding: 48px;
+            box-shadow: var(--shadow);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .login-logo {
+            font-size: 64px;
+            margin-bottom: 24px;
+        }
+
+        .login-card h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .login-subtitle {
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            font-size: 17px;
+        }
+
+        .worker-select {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .worker-option {
+            background-color: var(--background);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+
+        .worker-option:hover {
+            border-color: var(--primary-color);
+            transform: scale(1.02);
+        }
+
+        .worker-option.selected {
+            border-color: var(--primary-color);
+            background-color: #E3F2FD;
+        }
+
+        .worker-name {
+            font-weight: 600;
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+
+        .worker-id {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .login-btn {
+            width: 100%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px;
+            font-size: 17px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .login-btn:hover:not(:disabled) {
+            transform: scale(0.98);
+            opacity: 0.9;
+        }
+
+        .login-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Dashboard Styles */
+        .dashboard-container {
+            display: none;
+        }
+
         .container {
             max-width: 1400px;
             margin: 0 auto;
@@ -57,12 +159,26 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 24px;
         }
 
         .header-content h1 {
             font-size: 34px;
             font-weight: 700;
             letter-spacing: -0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
         }
 
         .language-selector select {
@@ -76,8 +192,19 @@
             transition: all 0.2s;
         }
 
-        .language-selector select:hover {
-            border-color: var(--primary-color);
+        .logout-btn {
+            background-color: var(--text-secondary);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 8px 16px;
+            font-size: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .logout-btn:hover {
+            background-color: var(--danger-color);
         }
 
         .status-bar {
@@ -86,28 +213,22 @@
             padding: 24px;
             margin-bottom: 30px;
             box-shadow: var(--shadow);
-            display: flex;
-            justify-content: space-between;
+            display: grid;
+            grid-template-columns: 1fr auto auto;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .status-bar {
+                grid-template-columns: 1fr;
+            }
         }
 
         .worker-info h2 {
             font-size: 24px;
             font-weight: 600;
             margin-bottom: 4px;
-        }
-
-        .worker-id {
-            color: var(--text-secondary);
-            font-size: 17px;
-        }
-
-        .clock-section {
-            display: flex;
-            align-items: center;
-            gap: 20px;
         }
 
         .timer {
@@ -137,16 +258,16 @@
             opacity: 0.9;
         }
 
-        .btn:active {
-            transform: scale(0.95);
-        }
-
         .btn-success {
             background-color: var(--success-color);
         }
 
         .btn-warning {
             background-color: var(--warning-color);
+        }
+
+        .btn-danger {
+            background-color: var(--danger-color);
         }
 
         .btn-secondary {
@@ -156,6 +277,42 @@
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            background-color: var(--card-background);
+            padding: 4px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px 24px;
+            background-color: transparent;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-secondary);
+        }
+
+        .tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         .orders-grid {
@@ -356,10 +513,291 @@
             margin-top: 16px;
         }
 
+        .weekly-schedule {
+            background-color: var(--card-background);
+            border-radius: 16px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+        }
+
+        .weekly-schedule h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .week-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .week-nav-btn {
+            background-color: var(--background);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .week-nav-btn:hover {
+            background-color: var(--border-color);
+        }
+
+        .schedule-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .day-schedule {
+            background-color: var(--background);
+            border-radius: 12px;
+            padding: 16px;
+            border: 2px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .day-schedule.today {
+            border-color: var(--primary-color);
+            background-color: #E3F2FD;
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .day-name {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .day-date {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .day-orders {
+            display: grid;
+            gap: 8px;
+        }
+
+        .day-order-item {
+            background-color: var(--card-background);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-count {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .issue-button {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 64px;
+            height: 64px;
+            background-color: var(--danger-color);
+            color: white;
+            border: none;
+            border-radius: 32px;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(255, 59, 48, 0.3);
+            transition: all 0.2s;
+            z-index: 99;
+        }
+
+        .issue-button:hover {
+            transform: scale(1.1);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            z-index: 1000;
+            animation: fadeIn 0.2s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: var(--card-background);
+            padding: 32px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            animation: slideIn 0.3s;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translate(-50%, -50%) scale(0.9);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+
+        .modal-icon {
+            font-size: 64px;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        .modal h2 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .modal p {
+            color: var(--text-secondary);
+            margin-bottom: 24px;
+        }
+
+        .issue-types {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .issue-type {
+            background-color: var(--background);
+            border: 2px solid transparent;
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .issue-type:hover {
+            border-color: var(--danger-color);
+        }
+
+        .issue-type.selected {
+            border-color: var(--danger-color);
+            background-color: #FFE5E5;
+        }
+
+        .issue-type-icon {
+            font-size: 24px;
+        }
+
+        .issue-type-text {
+            flex: 1;
+        }
+
+        .issue-type-title {
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .issue-type-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .issue-details {
+            margin-bottom: 24px;
+        }
+
+        .issue-details label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .issue-details select,
+        .issue-details textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.2s;
+        }
+
+        .issue-details select:focus,
+        .issue-details textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .issue-details textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+        }
+
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 24px;
+            margin-bottom: 30px;
         }
 
         .stat-card {
@@ -403,97 +841,6 @@
             border-radius: 4px;
         }
 
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .schedule-table th,
-        .schedule-table td {
-            padding: 12px;
-            text-align: center;
-            border-bottom: 1px solid var(--border-color);
-        }
-
-        .schedule-table th {
-            font-weight: 600;
-            color: var(--text-secondary);
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .schedule-table td {
-            font-size: 15px;
-        }
-
-        .schedule-table .today {
-            background-color: var(--primary-color);
-            color: white;
-            font-weight: 600;
-            border-radius: 8px;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            z-index: 1000;
-            animation: fadeIn 0.2s;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: var(--card-background);
-            padding: 32px;
-            border-radius: 20px;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            animation: slideIn 0.3s;
-        }
-
-        @keyframes slideIn {
-            from {
-                transform: translate(-50%, -50%) scale(0.9);
-                opacity: 0;
-            }
-            to {
-                transform: translate(-50%, -50%) scale(1);
-                opacity: 1;
-            }
-        }
-
-        .modal-icon {
-            font-size: 64px;
-            margin-bottom: 16px;
-        }
-
-        .modal h2 {
-            font-size: 24px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-
-        .modal p {
-            color: var(--text-secondary);
-            margin-bottom: 24px;
-        }
-
         @media (max-width: 768px) {
             .orders-grid {
                 grid-template-columns: 1fr;
@@ -506,310 +853,208 @@
             .timer {
                 font-size: 36px;
             }
+
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .issue-button {
+                bottom: 16px;
+                right: 16px;
+                width: 56px;
+                height: 56px;
+                font-size: 24px;
+            }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-content">
-            <h1 data-translate="title">Manufacturing Dashboard</h1>
-            <div class="language-selector">
-                <select id="languageSelect" onchange="changeLanguage()">
-                    <option value="en">English</option>
-                    <option value="es">Español</option>
-                    <option value="zh">中文</option>
-                    <option value="pt">Português</option>
-                </select>
+    <!-- Login Screen -->
+    <div class="login-container" id="loginScreen">
+        <div class="login-card">
+            <div class="login-logo">👞</div>
+            <h1 data-translate="loginTitle">Manufacturing Login</h1>
+            <p class="login-subtitle" data-translate="loginSubtitle">Select your profile to continue</p>
+            
+            <div class="worker-select">
+                <div class="worker-option" onclick="selectWorker('maria')" data-worker="maria">
+                    <div class="worker-name">Maria Rodriguez</div>
+                    <div class="worker-id">Worker ID: W-12345</div>
+                </div>
+                <div class="worker-option" onclick="selectWorker('john')" data-worker="john">
+                    <div class="worker-name">John Chen</div>
+                    <div class="worker-id">Worker ID: W-23456</div>
+                </div>
+                <div class="worker-option" onclick="selectWorker('ahmed')" data-worker="ahmed">
+                    <div class="worker-name">Ahmed Hassan</div>
+                    <div class="worker-id">Worker ID: W-34567</div>
+                </div>
             </div>
+            
+            <button class="login-btn" onclick="login()" disabled id="loginBtn" data-translate="loginButton">Login</button>
         </div>
-    </header>
+    </div>
 
-    <div class="container">
-        <div class="status-bar">
-            <div class="worker-info">
-                <h2 data-translate="welcome">Welcome back</h2>
-                <p class="worker-id">Worker ID: <span id="workerId">W-12345</span></p>
+    <!-- Dashboard -->
+    <div class="dashboard-container" id="dashboardScreen">
+        <header>
+            <div class="header-content">
+                <div class="header-left">
+                    <h1 data-translate="title">Manufacturing Dashboard</h1>
+                </div>
+                <div class="header-actions">
+                    <div class="language-selector">
+                        <select id="languageSelect" onchange="changeLanguage()">
+                            <option value="en">English</option>
+                            <option value="es">Español</option>
+                            <option value="zh">中文</option>
+                            <option value="pt">Português</option>
+                        </select>
+                    </div>
+                    <button class="logout-btn" onclick="logout()" data-translate="logout">Logout</button>
+                </div>
             </div>
-            <div class="clock-section">
+        </header>
+
+        <div class="container">
+            <div class="status-bar">
+                <div class="worker-info">
+                    <h2 id="workerName">Welcome</h2>
+                    <p class="worker-id">Worker ID: <span id="workerId">-</span></p>
+                </div>
                 <div class="timer" id="timer">00:00:00</div>
                 <button class="btn btn-warning" onclick="clockIn()" id="clockBtn">
                     <span>⏱</span>
                     <span data-translate="clockIn">Clock In</span>
                 </button>
             </div>
-        </div>
 
-        <h2 style="font-size: 28px; font-weight: 600; margin-bottom: 24px;" data-translate="todayOrders">Today's Orders</h2>
-        
-        <div class="orders-grid" id="ordersGrid">
-            <div class="order-card" data-order="ORD-001">
-                <div class="order-header">
-                    <h3 class="order-number">ORD-001</h3>
-                    <span class="order-status pending" data-translate="statusPending">Pending</span>
-                </div>
-                
-                <div class="order-details">
-                    <div class="detail-row">
-                        <span class="detail-label" data-translate="model">Model</span>
-                        <span class="detail-value">Classic Oxford</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label" data-translate="size">Size</span>
-                        <span class="detail-value">42 EU</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label" data-translate="quantity">Quantity</span>
-                        <span class="detail-value">1 pair</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label" data-translate="color">Colour</span>
-                        <span class="detail-value">Black</span>
-                    </div>
-                </div>
+            <!-- Tab Navigation -->
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('today')" data-translate="todayTab">Today's Orders</button>
+                <button class="tab" onclick="switchTab('week')" data-translate="weekTab">Weekly Schedule</button>
+            </div>
 
-                <div class="inventory-section">
-                    <h4 class="inventory-title">
-                        <span>📦</span>
-                        <span data-translate="confirmInventory">Confirm Inventory</span>
-                    </h4>
-                    <div class="inventory-list">
-                        <div class="inventory-item">
-                            <input type="checkbox" class="checkbox" id="leather-001" onchange="checkInventory('ORD-001')">
-                            <label for="leather-001" data-translate="leather">Premium Leather (Black)</label>
-                        </div>
-                        <div class="inventory-item">
-                            <input type="checkbox" class="checkbox" id="sole-001" onchange="checkInventory('ORD-001')">
-                            <label for="sole-001" data-translate="sole">Rubber Sole (Size 42)</label>
-                        </div>
-                        <div class="inventory-item">
-                            <input type="checkbox" class="checkbox" id="laces-001" onchange="checkInventory('ORD-001')">
-                            <label for="laces-001" data-translate="laces">Waxed Laces (Black)</label>
-                        </div>
-                        <div class="inventory-item">
-                            <input type="checkbox" class="checkbox" id="insole-001" onchange="checkInventory('ORD-001')">
-                            <label for="insole-001" data-translate="insole">Comfort Insole (Size 42)</label>
-                        </div>
-                        <div class="inventory-item">
-                            <input type="checkbox" class="checkbox" id="thread-001" onchange="checkInventory('ORD-001')">
-                            <label for="thread-001" data-translate="thread">Stitching Thread (Black)</label>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn btn-primary begin-btn" onclick="beginOrder('ORD-001')" disabled id="begin-ORD-001">
-                    <span data-translate="beginProduction">Begin Production</span>
-                </button>
-
-                <div class="stages-section" id="stages-ORD-001" style="display: none;">
-                    <h4 class="stages-title" data-translate="productionStages">Production Stages</h4>
-                    <div class="stages-grid">
-                        <div class="stage-card" id="stage-cutting-ORD-001">
-                            <div class="stage-icon">✂️</div>
-                            <div class="stage-name" data-translate="cutting">Cutting</div>
-                            <div class="stage-status" data-translate="stageReady">Ready to start</div>
-                            <label for="photo-cutting-ORD-001" class="upload-btn" id="upload-cutting-ORD-001">
-                                <span data-translate="uploadPhoto">Upload Photo</span>
-                            </label>
-                            <input type="file" id="photo-cutting-ORD-001" accept="image/*" onchange="uploadPhoto('ORD-001', 'cutting', this)">
-                        </div>
-
-                        <div class="stage-card" id="stage-stitching-ORD-001">
-                            <div class="stage-icon">🧵</div>
-                            <div class="stage-name" data-translate="stitching">Stitching</div>
-                            <div class="stage-status" data-translate="stageLocked">Locked</div>
-                            <label for="photo-stitching-ORD-001" class="upload-btn" id="upload-stitching-ORD-001" style="display: none;">
-                                <span data-translate="uploadPhoto">Upload Photo</span>
-                            </label>
-                            <input type="file" id="photo-stitching-ORD-001" accept="image/*" onchange="uploadPhoto('ORD-001', 'stitching', this)">
-                        </div>
-
-                        <div class="stage-card" id="stage-lasting-ORD-001">
-                            <div class="stage-icon">👞</div>
-                            <div class="stage-name" data-translate="lasting">Lasting</div>
-                            <div class="stage-status" data-translate="stageLocked">Locked</div>
-                            <label for="photo-lasting-ORD-001" class="upload-btn" id="upload-lasting-ORD-001" style="display: none;">
-                                <span data-translate="uploadPhoto">Upload Photo</span>
-                            </label>
-                            <input type="file" id="photo-lasting-ORD-001" accept="image/*" onchange="uploadPhoto('ORD-001', 'lasting', this)">
-                        </div>
-
-                        <div class="stage-card" id="stage-finishing-ORD-001">
-                            <div class="stage-icon">✨</div>
-                            <div class="stage-name" data-translate="finishing">Finishing</div>
-                            <div class="stage-status" data-translate="stageLocked">Locked</div>
-                            <label for="photo-finishing-ORD-001" class="upload-btn" id="upload-finishing-ORD-001" style="display: none;">
-                                <span data-translate="uploadPhoto">Upload Photo</span>
-                            </label>
-                            <input type="file" id="photo-finishing-ORD-001" accept="image/*" onchange="uploadPhoto('ORD-001', 'finishing', this)">
-                        </div>
-                    </div>
+            <!-- Today's Orders Tab -->
+            <div class="tab-content active" id="todayTab">
+                <div class="orders-grid" id="ordersGrid">
+                    <!-- Orders will be populated here based on logged-in worker -->
                 </div>
             </div>
 
-            <div class="order-card" data-order="ORD-002">
-                <div class="order-header">
-                    <h3 class="order-number">ORD-002</h3>
-                    <span class="order-status pending" data-translate="statusPending">Pending</span>
-                </div>
-                
-                <div class="order-details">
-                    <div class="detail-row">
-                        <span class="detail-label" data-translate="model">Model</span>
-                        <span class="detail-value">Derby Boot</span>
+            <!-- Weekly Schedule Tab -->
+            <div class="tab-content" id="weekTab">
+                <div class="weekly-schedule">
+                    <h2><span>📅</span> <span data-translate="weeklyWorkload">Weekly Workload</span></h2>
+                    <div class="week-navigation">
+                        <button class="week-nav-btn" onclick="changeWeek(-1)">←</button>
+                        <span id="weekRange">May 26 - June 1, 2025</span>
+                        <button class="week-nav-btn" onclick="changeWeek(1)">→</button>
                     </div>
-                    <div class="detail-row">
-                        <span class="detail-label" data-translate="size">Size</span>
-                        <span class="detail-value">40 EU</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label" data-translate="quantity">Quantity</span>
-                        <span class="detail-value">2 pairs</span>
-                    </div>
-                    <div class="detail-row">
-                        <span class="detail-label" data-translate="color">Colour</span>
-                        <span class="detail-value">Brown</span>
+                    <div class="schedule-grid" id="scheduleGrid">
+                        <!-- Schedule will be populated here -->
                     </div>
                 </div>
 
-                <div class="inventory-section">
-                    <h4 class="inventory-title">
-                        <span>📦</span>
-                        <span data-translate="confirmInventory">Confirm Inventory</span>
-                    </h4>
-                    <div class="inventory-list">
-                        <div class="inventory-item">
-                            <input type="checkbox" class="checkbox" id="leather-002" onchange="checkInventory('ORD-002')">
-                            <label for="leather-002" data-translate="leather">Premium Leather (Brown)</label>
-                        </div>
-                        <div class="inventory-item">
-                            <input type="checkbox" class="checkbox" id="sole-002" onchange="checkInventory('ORD-002')">
-                            <label for="sole-002" data-translate="sole">Rubber Sole (Size 40)</label>
-                        </div>
-                        <div class="inventory-item">
-                            <input type="checkbox" class="checkbox" id="laces-002" onchange="checkInventory('ORD-002')">
-                            <label for="laces-002" data-translate="laces">Waxed Laces (Brown)</label>
-                        </div>
-                        <div class="inventory-item">
-                            <input type="checkbox" class="checkbox" id="insole-002" onchange="checkInventory('ORD-002')">
-                            <label for="insole-002" data-translate="insole">Comfort Insole (Size 40)</label>
-                        </div>
-                        <div class="inventory-item">
-                            <input type="checkbox" class="checkbox" id="thread-002" onchange="checkInventory('ORD-002')">
-                            <label for="thread-002" data-translate="thread">Stitching Thread (Brown)</label>
-                        </div>
-                        <div class="inventory-item">
-                            <input type="checkbox" class="checkbox" id="hardware-002" onchange="checkInventory('ORD-002')">
-                            <label for="hardware-002" data-translate="hardware">Boot Hardware (4 pairs eyelets)</label>
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn btn-primary begin-btn" onclick="beginOrder('ORD-002')" disabled id="begin-ORD-002">
-                    <span data-translate="beginProduction">Begin Production</span>
-                </button>
-
-                <div class="stages-section" id="stages-ORD-002" style="display: none;">
-                    <h4 class="stages-title" data-translate="productionStages">Production Stages</h4>
-                    <div class="stages-grid">
-                        <div class="stage-card" id="stage-cutting-ORD-002">
-                            <div class="stage-icon">✂️</div>
-                            <div class="stage-name" data-translate="cutting">Cutting</div>
-                            <div class="stage-status" data-translate="stageReady">Ready to start</div>
-                            <label for="photo-cutting-ORD-002" class="upload-btn" id="upload-cutting-ORD-002">
-                                <span data-translate="uploadPhoto">Upload Photo</span>
-                            </label>
-                            <input type="file" id="photo-cutting-ORD-002" accept="image/*" onchange="uploadPhoto('ORD-002', 'cutting', this)">
-                        </div>
-
-                        <div class="stage-card" id="stage-stitching-ORD-002">
-                            <div class="stage-icon">🧵</div>
-                            <div class="stage-name" data-translate="stitching">Stitching</div>
-                            <div class="stage-status" data-translate="stageLocked">Locked</div>
-                            <label for="photo-stitching-ORD-002" class="upload-btn" id="upload-stitching-ORD-002" style="display: none;">
-                                <span data-translate="uploadPhoto">Upload Photo</span>
-                            </label>
-                            <input type="file" id="photo-stitching-ORD-002" accept="image/*" onchange="uploadPhoto('ORD-002', 'stitching', this)">
-                        </div>
-
-                        <div class="stage-card" id="stage-lasting-ORD-002">
-                            <div class="stage-icon">👞</div>
-                            <div class="stage-name" data-translate="lasting">Lasting</div>
-                            <div class="stage-status" data-translate="stageLocked">Locked</div>
-                            <label for="photo-lasting-ORD-002" class="upload-btn" id="upload-lasting-ORD-002" style="display: none;">
-                                <span data-translate="uploadPhoto">Upload Photo</span>
-                            </label>
-                            <input type="file" id="photo-lasting-ORD-002" accept="image/*" onchange="uploadPhoto('ORD-002', 'lasting', this)">
-                        </div>
-
-                        <div class="stage-card" id="stage-finishing-ORD-002">
-                            <div class="stage-icon">✨</div>
-                            <div class="stage-name" data-translate="finishing">Finishing</div>
-                            <div class="stage-status" data-translate="stageLocked">Locked</div>
-                            <label for="photo-finishing-ORD-002" class="upload-btn" id="upload-finishing-ORD-002" style="display: none;">
-                                <span data-translate="uploadPhoto">Upload Photo</span>
-                            </label>
-                            <input type="file" id="photo-finishing-ORD-002" accept="image/*" onchange="uploadPhoto('ORD-002', 'finishing', this)">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3><span>📊</span> <span data-translate="weeklyStats">Weekly Statistics</span></h3>
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span data-translate="totalOrders">Total Orders</span>
+                                <span id="weeklyTotal">0</span>
+                            </div>
+                            <div class="progress-info">
+                                <span data-translate="completed">Completed</span>
+                                <span id="weeklyCompleted">0</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="weeklyProgress" style="width: 0%"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <h3><span>📊</span> <span data-translate="dailyProgress">Daily Progress</span></h3>
-                <div class="progress-container">
-                    <div class="progress-info">
-                        <span data-translate="completed">Completed</span>
-                        <span><span id="completedCount">0</span> / <span id="totalCount">2</span></span>
+        <!-- Report Issue Button -->
+        <button class="issue-button" onclick="openIssueModal()">⚠️</button>
+    </div>
+
+    <!-- Issue Reporting Modal -->
+    <div class="modal" id="issueModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 data-translate="reportIssue">Report Issue</h2>
+                <button class="modal-close" onclick="closeModal('issueModal')">×</button>
+            </div>
+            
+            <div class="issue-types">
+                <div class="issue-type" onclick="selectIssueType('stock')" data-issue="stock">
+                    <div class="issue-type-icon">📦</div>
+                    <div class="issue-type-text">
+                        <div class="issue-type-title" data-translate="lowStock">Low Stock</div>
+                        <div class="issue-type-desc" data-translate="lowStockDesc">Materials running low</div>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+                </div>
+                <div class="issue-type" onclick="selectIssueType('mistake')" data-issue="mistake">
+                    <div class="issue-type-icon">❌</div>
+                    <div class="issue-type-text">
+                        <div class="issue-type-title" data-translate="mistake">Production Mistake</div>
+                        <div class="issue-type-desc" data-translate="mistakeDesc">Error in production process</div>
+                    </div>
+                </div>
+                <div class="issue-type" onclick="selectIssueType('delay')" data-issue="delay">
+                    <div class="issue-type-icon">⏰</div>
+                    <div class="issue-type-text">
+                        <div class="issue-type-title" data-translate="delay">Delay</div>
+                        <div class="issue-type-desc" data-translate="delayDesc">Production running behind schedule</div>
+                    </div>
+                </div>
+                <div class="issue-type" onclick="selectIssueType('other')" data-issue="other">
+                    <div class="issue-type-icon">⚙️</div>
+                    <div class="issue-type-text">
+                        <div class="issue-type-title" data-translate="other">Other Issue</div>
+                        <div class="issue-type-desc" data-translate="otherDesc">Equipment, quality, or other problems</div>
                     </div>
                 </div>
             </div>
 
-            <div class="stat-card">
-                <h3><span>📅</span> <span data-translate="weeklySchedule">Weekly Schedule</span></h3>
-                <table class="schedule-table">
-                    <thead>
-                        <tr>
-                            <th data-translate="mon">MON</th>
-                            <th data-translate="tue">TUE</th>
-                            <th data-translate="wed">WED</th>
-                            <th data-translate="thu">THU</th>
-                            <th data-translate="fri">FRI</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>8:00-17:00</td>
-                            <td>8:00-17:00</td>
-                            <td>8:00-17:00</td>
-                            <td>8:00-17:00</td>
-                            <td class="today">8:00-17:00</td>
-                        </tr>
-                    </tbody>
-                </table>
+            <div class="issue-details">
+                <label data-translate="selectOrder">Select Order (Optional)</label>
+                <select id="issueOrder">
+                    <option value="">None</option>
+                </select>
+                
+                <label data-translate="description" style="margin-top: 16px;">Description</label>
+                <textarea id="issueDescription" placeholder="Provide details about the issue..."></textarea>
+            </div>
+
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="closeModal('issueModal')" data-translate="cancel">Cancel</button>
+                <button class="btn btn-danger" onclick="submitIssue()" data-translate="submitIssue">Submit Issue</button>
             </div>
         </div>
     </div>
 
+    <!-- Photo Upload Modal -->
     <div class="modal" id="uploadModal">
         <div class="modal-content">
             <div class="modal-icon">✅</div>
             <h2 data-translate="photoUploaded">Photo Uploaded</h2>
             <p data-translate="photoConfirm">Stage photo has been saved successfully</p>
-            <button class="btn btn-primary" onclick="closeModal()" data-translate="continue">Continue</button>
+            <button class="btn btn-primary" onclick="closeModal('uploadModal')" data-translate="continue">Continue</button>
         </div>
     </div>
 
+    <!-- Order Complete Modal -->
     <div class="modal" id="orderCompleteModal">
         <div class="modal-content">
             <div class="modal-icon">🎉</div>
             <h2 data-translate="orderComplete">Order Complete!</h2>
             <p data-translate="orderCompleteMsg">Excellent work! This order has been completed.</p>
-            <button class="btn btn-success" onclick="closeModal()" data-translate="continue">Continue</button>
+            <button class="btn btn-success" onclick="closeModal('orderCompleteModal')" data-translate="continue">Continue</button>
         </div>
     </div>
 
@@ -817,15 +1062,22 @@
         // Translation dictionary
         const translations = {
             en: {
+                loginTitle: "Manufacturing Login",
+                loginSubtitle: "Select your profile to continue",
+                loginButton: "Login",
                 title: "Manufacturing Dashboard",
+                logout: "Logout",
                 welcome: "Welcome back",
                 clockIn: "Clock In",
                 clockOut: "Clock Out",
+                todayTab: "Today's Orders",
+                weekTab: "Weekly Schedule",
                 todayOrders: "Today's Orders",
                 model: "Model",
                 size: "Size",
                 quantity: "Quantity",
                 color: "Colour",
+                deadline: "Deadline",
                 confirmInventory: "Confirm Inventory",
                 leather: "Premium Leather",
                 sole: "Rubber Sole",
@@ -846,14 +1098,23 @@
                 statusPending: "Pending",
                 statusInProgress: "In Progress",
                 statusCompleted: "Completed",
-                dailyProgress: "Daily Progress",
+                weeklyWorkload: "Weekly Workload",
+                weeklyStats: "Weekly Statistics",
+                totalOrders: "Total Orders",
                 completed: "Completed",
-                weeklySchedule: "Weekly Schedule",
-                mon: "MON",
-                tue: "TUE",
-                wed: "WED",
-                thu: "THU",
-                fri: "FRI",
+                reportIssue: "Report Issue",
+                lowStock: "Low Stock",
+                lowStockDesc: "Materials running low",
+                mistake: "Production Mistake",
+                mistakeDesc: "Error in production process",
+                delay: "Delay",
+                delayDesc: "Production running behind schedule",
+                other: "Other Issue",
+                otherDesc: "Equipment, quality, or other problems",
+                selectOrder: "Select Order (Optional)",
+                description: "Description",
+                cancel: "Cancel",
+                submitIssue: "Submit Issue",
                 photoUploaded: "Photo Uploaded",
                 photoConfirm: "Stage photo has been saved successfully",
                 continue: "Continue",
@@ -861,15 +1122,22 @@
                 orderCompleteMsg: "Excellent work! This order has been completed."
             },
             es: {
+                loginTitle: "Inicio de Sesión de Fabricación",
+                loginSubtitle: "Seleccione su perfil para continuar",
+                loginButton: "Iniciar Sesión",
                 title: "Panel de Fabricación",
+                logout: "Cerrar Sesión",
                 welcome: "Bienvenido de nuevo",
                 clockIn: "Fichar Entrada",
                 clockOut: "Fichar Salida",
+                todayTab: "Pedidos de Hoy",
+                weekTab: "Horario Semanal",
                 todayOrders: "Pedidos de Hoy",
                 model: "Modelo",
                 size: "Talla",
                 quantity: "Cantidad",
                 color: "Color",
+                deadline: "Fecha Límite",
                 confirmInventory: "Confirmar Inventario",
                 leather: "Cuero Premium",
                 sole: "Suela de Goma",
@@ -890,14 +1158,23 @@
                 statusPending: "Pendiente",
                 statusInProgress: "En Progreso",
                 statusCompleted: "Completado",
-                dailyProgress: "Progreso Diario",
+                weeklyWorkload: "Carga de Trabajo Semanal",
+                weeklyStats: "Estadísticas Semanales",
+                totalOrders: "Total de Pedidos",
                 completed: "Completado",
-                weeklySchedule: "Horario Semanal",
-                mon: "LUN",
-                tue: "MAR",
-                wed: "MIÉ",
-                thu: "JUE",
-                fri: "VIE",
+                reportIssue: "Reportar Problema",
+                lowStock: "Stock Bajo",
+                lowStockDesc: "Materiales agotándose",
+                mistake: "Error de Producción",
+                mistakeDesc: "Error en el proceso de producción",
+                delay: "Retraso",
+                delayDesc: "Producción retrasada",
+                other: "Otro Problema",
+                otherDesc: "Equipo, calidad u otros problemas",
+                selectOrder: "Seleccionar Pedido (Opcional)",
+                description: "Descripción",
+                cancel: "Cancelar",
+                submitIssue: "Enviar Problema",
                 photoUploaded: "Foto Subida",
                 photoConfirm: "La foto de la etapa se ha guardado exitosamente",
                 continue: "Continuar",
@@ -905,15 +1182,22 @@
                 orderCompleteMsg: "¡Excelente trabajo! Este pedido ha sido completado."
             },
             zh: {
+                loginTitle: "制造登录",
+                loginSubtitle: "选择您的配置文件以继续",
+                loginButton: "登录",
                 title: "生产管理面板",
+                logout: "登出",
                 welcome: "欢迎回来",
                 clockIn: "上班打卡",
                 clockOut: "下班打卡",
+                todayTab: "今日订单",
+                weekTab: "每周日程",
                 todayOrders: "今日订单",
                 model: "型号",
                 size: "尺码",
                 quantity: "数量",
                 color: "颜色",
+                deadline: "截止日期",
                 confirmInventory: "确认库存",
                 leather: "优质皮革",
                 sole: "橡胶鞋底",
@@ -934,14 +1218,23 @@
                 statusPending: "待处理",
                 statusInProgress: "进行中",
                 statusCompleted: "已完成",
-                dailyProgress: "每日进度",
+                weeklyWorkload: "每周工作量",
+                weeklyStats: "每周统计",
+                totalOrders: "总订单",
                 completed: "已完成",
-                weeklySchedule: "每周日程",
-                mon: "周一",
-                tue: "周二",
-                wed: "周三",
-                thu: "周四",
-                fri: "周五",
+                reportIssue: "报告问题",
+                lowStock: "库存不足",
+                lowStockDesc: "材料不足",
+                mistake: "生产错误",
+                mistakeDesc: "生产过程中的错误",
+                delay: "延迟",
+                delayDesc: "生产进度落后",
+                other: "其他问题",
+                otherDesc: "设备、质量或其他问题",
+                selectOrder: "选择订单（可选）",
+                description: "描述",
+                cancel: "取消",
+                submitIssue: "提交问题",
                 photoUploaded: "照片已上传",
                 photoConfirm: "阶段照片已成功保存",
                 continue: "继续",
@@ -949,15 +1242,22 @@
                 orderCompleteMsg: "出色的工作！此订单已完成。"
             },
             pt: {
+                loginTitle: "Login de Fabricação",
+                loginSubtitle: "Selecione seu perfil para continuar",
+                loginButton: "Entrar",
                 title: "Painel de Fabricação",
+                logout: "Sair",
                 welcome: "Bem-vindo de volta",
                 clockIn: "Registrar Entrada",
                 clockOut: "Registrar Saída",
+                todayTab: "Pedidos de Hoje",
+                weekTab: "Horário Semanal",
                 todayOrders: "Pedidos de Hoje",
                 model: "Modelo",
                 size: "Tamanho",
                 quantity: "Quantidade",
                 color: "Cor",
+                deadline: "Prazo",
                 confirmInventory: "Confirmar Inventário",
                 leather: "Couro Premium",
                 sole: "Sola de Borracha",
@@ -978,14 +1278,23 @@
                 statusPending: "Pendente",
                 statusInProgress: "Em Progresso",
                 statusCompleted: "Concluído",
-                dailyProgress: "Progresso Diário",
+                weeklyWorkload: "Carga de Trabalho Semanal",
+                weeklyStats: "Estatísticas Semanais",
+                totalOrders: "Total de Pedidos",
                 completed: "Concluído",
-                weeklySchedule: "Horário Semanal",
-                mon: "SEG",
-                tue: "TER",
-                wed: "QUA",
-                thu: "QUI",
-                fri: "SEX",
+                reportIssue: "Relatar Problema",
+                lowStock: "Estoque Baixo",
+                lowStockDesc: "Materiais acabando",
+                mistake: "Erro de Produção",
+                mistakeDesc: "Erro no processo de produção",
+                delay: "Atraso",
+                delayDesc: "Produção atrasada",
+                other: "Outro Problema",
+                otherDesc: "Equipamento, qualidade ou outros problemas",
+                selectOrder: "Selecionar Pedido (Opcional)",
+                description: "Descrição",
+                cancel: "Cancelar",
+                submitIssue: "Enviar Problema",
                 photoUploaded: "Foto Enviada",
                 photoConfirm: "A foto da etapa foi salva com sucesso",
                 continue: "Continuar",
@@ -994,39 +1303,407 @@
             }
         };
 
-        // State management
-        let currentLanguage = 'en';
-        let clockedIn = false;
-        let startTime = null;
-        let timerInterval = null;
-        let completedOrders = 0;
-        const totalOrders = 2;
-        
-        // Order state tracking
-        const orderStates = {
-            'ORD-001': {
-                inventoryChecked: false,
-                started: false,
-                currentStage: null,
-                stages: {
-                    cutting: { completed: false, photo: null },
-                    stitching: { completed: false, photo: null },
-                    lasting: { completed: false, photo: null },
-                    finishing: { completed: false, photo: null }
+        // Worker data
+        const workerData = {
+            maria: {
+                name: "Maria Rodriguez",
+                id: "W-12345",
+                todayOrders: [
+                    {
+                        id: "ORD-001",
+                        model: "Classic Oxford",
+                        size: "42 EU",
+                        quantity: "1 pair",
+                        color: "Black",
+                        deadline: "Today 5PM",
+                        materials: ["Premium Leather (Black)", "Rubber Sole (Size 42)", "Waxed Laces (Black)", "Comfort Insole (Size 42)", "Stitching Thread (Black)"]
+                    },
+                    {
+                        id: "ORD-002",
+                        model: "Derby Boot",
+                        size: "40 EU",
+                        quantity: "2 pairs",
+                        color: "Brown",
+                        deadline: "Today 7PM",
+                        materials: ["Premium Leather (Brown)", "Rubber Sole (Size 40)", "Waxed Laces (Brown)", "Comfort Insole (Size 40)", "Stitching Thread (Brown)", "Boot Hardware (4 pairs eyelets)"]
+                    }
+                ],
+                weeklySchedule: {
+                    monday: [
+                        { model: "Loafer", quantity: 3 },
+                        { model: "Oxford", quantity: 2 }
+                    ],
+                    tuesday: [
+                        { model: "Boot", quantity: 2 },
+                        { model: "Sneaker", quantity: 4 }
+                    ],
+                    wednesday: [
+                        { model: "Oxford", quantity: 3 }
+                    ],
+                    thursday: [
+                        { model: "Derby", quantity: 2 },
+                        { model: "Loafer", quantity: 2 }
+                    ],
+                    friday: [
+                        { model: "Oxford", quantity: 1 },
+                        { model: "Boot", quantity: 2 }
+                    ]
                 }
             },
-            'ORD-002': {
-                inventoryChecked: false,
-                started: false,
-                currentStage: null,
-                stages: {
-                    cutting: { completed: false, photo: null },
-                    stitching: { completed: false, photo: null },
-                    lasting: { completed: false, photo: null },
-                    finishing: { completed: false, photo: null }
+            john: {
+                name: "John Chen",
+                id: "W-23456",
+                todayOrders: [
+                    {
+                        id: "ORD-003",
+                        model: "Chelsea Boot",
+                        size: "44 EU",
+                        quantity: "1 pair",
+                        color: "Tan",
+                        deadline: "Today 4PM",
+                        materials: ["Premium Leather (Tan)", "Rubber Sole (Size 44)", "Elastic Side Panels", "Comfort Insole (Size 44)", "Stitching Thread (Tan)"]
+                    },
+                    {
+                        id: "ORD-004",
+                        model: "Monk Strap",
+                        size: "41 EU",
+                        quantity: "1 pair",
+                        color: "Burgundy",
+                        deadline: "Today 6PM",
+                        materials: ["Premium Leather (Burgundy)", "Leather Sole (Size 41)", "Metal Buckles (2)", "Comfort Insole (Size 41)", "Stitching Thread (Burgundy)"]
+                    },
+                    {
+                        id: "ORD-005",
+                        model: "Sneaker",
+                        size: "43 EU",
+                        quantity: "3 pairs",
+                        color: "White",
+                        deadline: "Today 8PM",
+                        materials: ["Canvas Material (White)", "Rubber Sole (Size 43)", "Cotton Laces (White)", "Sport Insole (Size 43)", "Stitching Thread (White)"]
+                    }
+                ],
+                weeklySchedule: {
+                    monday: [
+                        { model: "Sneaker", quantity: 5 },
+                        { model: "Boot", quantity: 1 }
+                    ],
+                    tuesday: [
+                        { model: "Oxford", quantity: 3 }
+                    ],
+                    wednesday: [
+                        { model: "Monk Strap", quantity: 2 },
+                        { model: "Loafer", quantity: 3 }
+                    ],
+                    thursday: [
+                        { model: "Chelsea Boot", quantity: 2 }
+                    ],
+                    friday: [
+                        { model: "Chelsea Boot", quantity: 1 },
+                        { model: "Monk Strap", quantity: 1 },
+                        { model: "Sneaker", quantity: 3 }
+                    ]
+                }
+            },
+            ahmed: {
+                name: "Ahmed Hassan",
+                id: "W-34567",
+                todayOrders: [
+                    {
+                        id: "ORD-006",
+                        model: "Brogue Oxford",
+                        size: "45 EU",
+                        quantity: "1 pair",
+                        color: "Black",
+                        deadline: "Today 3PM",
+                        materials: ["Premium Leather (Black)", "Leather Sole (Size 45)", "Waxed Laces (Black)", "Luxury Insole (Size 45)", "Stitching Thread (Black)", "Brogue Punch Tool"]
+                    },
+                    {
+                        id: "ORD-007",
+                        model: "Loafer",
+                        size: "39 EU",
+                        quantity: "2 pairs",
+                        color: "Navy",
+                        deadline: "Today 5PM",
+                        materials: ["Suede Leather (Navy)", "Rubber Sole (Size 39)", "Comfort Insole (Size 39)", "Stitching Thread (Navy)"]
+                    }
+                ],
+                weeklySchedule: {
+                    monday: [
+                        { model: "Derby", quantity: 3 }
+                    ],
+                    tuesday: [
+                        { model: "Brogue", quantity: 2 },
+                        { model: "Loafer", quantity: 2 }
+                    ],
+                    wednesday: [
+                        { model: "Oxford", quantity: 4 }
+                    ],
+                    thursday: [
+                        { model: "Boot", quantity: 1 },
+                        { model: "Sneaker", quantity: 3 }
+                    ],
+                    friday: [
+                        { model: "Brogue", quantity: 1 },
+                        { model: "Loafer", quantity: 2 }
+                    ]
                 }
             }
         };
+
+        // State management
+        let currentLanguage = 'en';
+        let currentWorker = null;
+        let clockedIn = false;
+        let startTime = null;
+        let timerInterval = null;
+        let selectedIssueType = null;
+        let currentWeekOffset = 0;
+        
+        // Order states will be dynamically created based on worker
+
+        // Login functions
+        function selectWorker(workerId) {
+            document.querySelectorAll('.worker-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.querySelector(`[data-worker="${workerId}"]`).classList.add('selected');
+            document.getElementById('loginBtn').disabled = false;
+        }
+
+        function login() {
+            const selectedOption = document.querySelector('.worker-option.selected');
+            if (!selectedOption) return;
+            
+            currentWorker = selectedOption.getAttribute('data-worker');
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('dashboardScreen').style.display = 'block';
+            
+            initializeDashboard();
+        }
+
+        function logout() {
+            currentWorker = null;
+            clockedIn = false;
+            if (timerInterval) clearInterval(timerInterval);
+            document.getElementById('timer').textContent = '00:00:00';
+            document.getElementById('dashboardScreen').style.display = 'none';
+            document.getElementById('loginScreen').style.display = 'flex';
+            document.querySelectorAll('.worker-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            document.getElementById('loginBtn').disabled = true;
+        }
+
+        // Initialize dashboard for logged-in worker
+        function initializeDashboard() {
+            const worker = workerData[currentWorker];
+            document.getElementById('workerName').textContent = `Welcome back, ${worker.name.split(' ')[0]}`;
+            document.getElementById('workerId').textContent = worker.id;
+            
+            loadTodayOrders();
+            loadWeeklySchedule();
+            updateTranslations();
+        }
+
+        // Load today's orders for the worker
+        function loadTodayOrders() {
+            const worker = workerData[currentWorker];
+            const ordersGrid = document.getElementById('ordersGrid');
+            ordersGrid.innerHTML = '';
+            
+            // Update issue modal order dropdown
+            const issueOrderSelect = document.getElementById('issueOrder');
+            issueOrderSelect.innerHTML = '<option value="">None</option>';
+            
+            worker.todayOrders.forEach(order => {
+                // Add to issue dropdown
+                issueOrderSelect.innerHTML += `<option value="${order.id}">${order.id} - ${order.model}</option>`;
+                
+                // Create order card HTML
+                const orderCard = document.createElement('div');
+                orderCard.className = 'order-card';
+                orderCard.setAttribute('data-order', order.id);
+                
+                orderCard.innerHTML = `
+                    <div class="order-header">
+                        <h3 class="order-number">${order.id}</h3>
+                        <span class="order-status pending" data-translate="statusPending">Pending</span>
+                    </div>
+                    
+                    <div class="order-details">
+                        <div class="detail-row">
+                            <span class="detail-label" data-translate="model">Model</span>
+                            <span class="detail-value">${order.model}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label" data-translate="size">Size</span>
+                            <span class="detail-value">${order.size}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label" data-translate="quantity">Quantity</span>
+                            <span class="detail-value">${order.quantity}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label" data-translate="color">Colour</span>
+                            <span class="detail-value">${order.color}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label" data-translate="deadline">Deadline</span>
+                            <span class="detail-value" style="color: var(--danger-color); font-weight: 600;">${order.deadline}</span>
+                        </div>
+                    </div>
+
+                    <div class="inventory-section">
+                        <h4 class="inventory-title">
+                            <span>📦</span>
+                            <span data-translate="confirmInventory">Confirm Inventory</span>
+                        </h4>
+                        <div class="inventory-list">
+                            ${order.materials.map((material, index) => `
+                                <div class="inventory-item">
+                                    <input type="checkbox" class="checkbox" id="${order.id}-mat-${index}" onchange="checkInventory('${order.id}')">
+                                    <label for="${order.id}-mat-${index}">${material}</label>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <button class="btn btn-primary begin-btn" onclick="beginOrder('${order.id}')" disabled id="begin-${order.id}">
+                        <span data-translate="beginProduction">Begin Production</span>
+                    </button>
+
+                    <div class="stages-section" id="stages-${order.id}" style="display: none;">
+                        <h4 class="stages-title" data-translate="productionStages">Production Stages</h4>
+                        <div class="stages-grid">
+                            <div class="stage-card" id="stage-cutting-${order.id}">
+                                <div class="stage-icon">✂️</div>
+                                <div class="stage-name" data-translate="cutting">Cutting</div>
+                                <div class="stage-status" data-translate="stageReady">Ready to start</div>
+                                <label for="photo-cutting-${order.id}" class="upload-btn" id="upload-cutting-${order.id}">
+                                    <span data-translate="uploadPhoto">Upload Photo</span>
+                                </label>
+                                <input type="file" id="photo-cutting-${order.id}" accept="image/*" onchange="uploadPhoto('${order.id}', 'cutting', this)">
+                            </div>
+
+                            <div class="stage-card" id="stage-stitching-${order.id}">
+                                <div class="stage-icon">🧵</div>
+                                <div class="stage-name" data-translate="stitching">Stitching</div>
+                                <div class="stage-status" data-translate="stageLocked">Locked</div>
+                                <label for="photo-stitching-${order.id}" class="upload-btn" id="upload-stitching-${order.id}" style="display: none;">
+                                    <span data-translate="uploadPhoto">Upload Photo</span>
+                                </label>
+                                <input type="file" id="photo-stitching-${order.id}" accept="image/*" onchange="uploadPhoto('${order.id}', 'stitching', this)">
+                            </div>
+
+                            <div class="stage-card" id="stage-lasting-${order.id}">
+                                <div class="stage-icon">👞</div>
+                                <div class="stage-name" data-translate="lasting">Lasting</div>
+                                <div class="stage-status" data-translate="stageLocked">Locked</div>
+                                <label for="photo-lasting-${order.id}" class="upload-btn" id="upload-lasting-${order.id}" style="display: none;">
+                                    <span data-translate="uploadPhoto">Upload Photo</span>
+                                </label>
+                                <input type="file" id="photo-lasting-${order.id}" accept="image/*" onchange="uploadPhoto('${order.id}', 'lasting', this)">
+                            </div>
+
+                            <div class="stage-card" id="stage-finishing-${order.id}">
+                                <div class="stage-icon">✨</div>
+                                <div class="stage-name" data-translate="finishing">Finishing</div>
+                                <div class="stage-status" data-translate="stageLocked">Locked</div>
+                                <label for="photo-finishing-${order.id}" class="upload-btn" id="upload-finishing-${order.id}" style="display: none;">
+                                    <span data-translate="uploadPhoto">Upload Photo</span>
+                                </label>
+                                <input type="file" id="photo-finishing-${order.id}" accept="image/*" onchange="uploadPhoto('${order.id}', 'finishing', this)">
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                ordersGrid.appendChild(orderCard);
+            });
+            
+            updateTranslations();
+        }
+
+        // Load weekly schedule
+        function loadWeeklySchedule() {
+            const worker = workerData[currentWorker];
+            const scheduleGrid = document.getElementById('scheduleGrid');
+            scheduleGrid.innerHTML = '';
+            
+            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+            const dayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+            const today = new Date().getDay();
+            
+            let totalOrders = 0;
+            let completedOrders = 0;
+            
+            days.forEach((day, index) => {
+                const daySchedule = worker.weeklySchedule[day] || [];
+                const isToday = (index + 1) === today;
+                
+                const dayCard = document.createElement('div');
+                dayCard.className = `day-schedule ${isToday ? 'today' : ''}`;
+                
+                const orderCount = daySchedule.reduce((sum, item) => sum + item.quantity, 0);
+                totalOrders += orderCount;
+                
+                // Get current date for the week
+                const currentDate = new Date();
+                currentDate.setDate(currentDate.getDate() - currentDate.getDay() + index + 1 + (currentWeekOffset * 7));
+                const dateStr = currentDate.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' });
+                
+                dayCard.innerHTML = `
+                    <div class="day-header">
+                        <span class="day-name">${dayNames[index]}</span>
+                        <span class="day-date">${dateStr}</span>
+                    </div>
+                    <div class="day-orders">
+                        ${daySchedule.length > 0 ? daySchedule.map(item => `
+                            <div class="day-order-item">
+                                <span>${item.model}</span>
+                                <span class="order-count">${item.quantity}</span>
+                            </div>
+                        `).join('') : '<div class="day-order-item" style="color: var(--text-secondary);">No orders scheduled</div>'}
+                    </div>
+                `;
+                
+                scheduleGrid.appendChild(dayCard);
+            });
+            
+            // Update week range
+            const weekStart = new Date();
+            weekStart.setDate(weekStart.getDate() - weekStart.getDay() + 1 + (currentWeekOffset * 7));
+            const weekEnd = new Date(weekStart);
+            weekEnd.setDate(weekEnd.getDate() + 6);
+            
+            document.getElementById('weekRange').textContent = 
+                `${weekStart.toLocaleDateString('en-GB', { day: 'numeric', month: 'short' })} - ${weekEnd.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}`;
+            
+            // Update weekly stats
+            document.getElementById('weeklyTotal').textContent = totalOrders;
+            document.getElementById('weeklyCompleted').textContent = completedOrders;
+            document.getElementById('weeklyProgress').style.width = '0%';
+        }
+
+        // Change week navigation
+        function changeWeek(direction) {
+            currentWeekOffset += direction;
+            loadWeeklySchedule();
+        }
+
+        // Tab switching
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            
+            if (tab === 'today') {
+                document.querySelectorAll('.tab')[0].classList.add('active');
+                document.getElementById('todayTab').classList.add('active');
+            } else {
+                document.querySelectorAll('.tab')[1].classList.add('active');
+                document.getElementById('weekTab').classList.add('active');
+            }
+        }
 
         // Language functions
         function changeLanguage() {
@@ -1091,15 +1768,10 @@
             
             const beginBtn = document.getElementById(`begin-${orderId}`);
             beginBtn.disabled = !allChecked;
-            
-            orderStates[orderId].inventoryChecked = allChecked;
         }
 
         // Begin order function
         function beginOrder(orderId) {
-            orderStates[orderId].started = true;
-            orderStates[orderId].currentStage = 'cutting';
-            
             // Update UI
             const order = document.querySelector(`[data-order="${orderId}"]`);
             const statusBadge = order.querySelector('.order-status');
@@ -1124,16 +1796,12 @@
             if (input.files && input.files[0]) {
                 const file = input.files[0];
                 
-                // Store photo reference
-                orderStates[orderId].stages[stage].photo = file.name;
-                
                 // Update UI
                 const uploadBtn = document.getElementById(`upload-${stage}-${orderId}`);
                 uploadBtn.classList.add('uploaded');
                 uploadBtn.innerHTML = '<span>✓ Photo Uploaded</span>';
                 
                 // Mark stage as completed
-                orderStates[orderId].stages[stage].completed = true;
                 const stageCard = document.getElementById(`stage-${stage}-${orderId}`);
                 stageCard.classList.remove('current');
                 stageCard.classList.add('completed');
@@ -1156,7 +1824,6 @@
             
             if (currentIndex < stages.length - 1) {
                 const nextStage = stages[currentIndex + 1];
-                orderStates[orderId].currentStage = nextStage;
                 
                 // Activate next stage
                 const nextStageCard = document.getElementById(`stage-${nextStage}-${orderId}`);
@@ -1179,31 +1846,63 @@
             statusBadge.classList.add('completed');
             statusBadge.textContent = translations[currentLanguage].statusCompleted;
             
-            completedOrders++;
-            updateProgress();
-            
             // Show completion modal
             document.getElementById('orderCompleteModal').style.display = 'block';
         }
 
-        // Update progress
-        function updateProgress() {
-            const percentage = (completedOrders / totalOrders) * 100;
-            document.getElementById('completedCount').textContent = completedOrders;
-            document.getElementById('progressFill').style.width = percentage + '%';
+        // Issue reporting functions
+        function openIssueModal() {
+            document.getElementById('issueModal').style.display = 'block';
+            selectedIssueType = null;
+            document.querySelectorAll('.issue-type').forEach(type => {
+                type.classList.remove('selected');
+            });
+            document.getElementById('issueDescription').value = '';
+        }
+
+        function selectIssueType(type) {
+            selectedIssueType = type;
+            document.querySelectorAll('.issue-type').forEach(t => {
+                t.classList.remove('selected');
+            });
+            document.querySelector(`[data-issue="${type}"]`).classList.add('selected');
+        }
+
+        function submitIssue() {
+            if (!selectedIssueType) {
+                alert('Please select an issue type');
+                return;
+            }
+            
+            const order = document.getElementById('issueOrder').value;
+            const description = document.getElementById('issueDescription').value;
+            
+            if (!description.trim()) {
+                alert('Please provide a description');
+                return;
+            }
+            
+            // In a real app, this would send to server
+            console.log('Issue reported:', {
+                worker: currentWorker,
+                type: selectedIssueType,
+                order: order,
+                description: description,
+                timestamp: new Date().toISOString()
+            });
+            
+            alert('Issue reported successfully! Management will be notified.');
+            closeModal('issueModal');
         }
 
         // Modal functions
-        function closeModal() {
-            document.querySelectorAll('.modal').forEach(modal => {
-                modal.style.display = 'none';
-            });
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
         }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             updateTranslations();
-            document.getElementById('totalCount').textContent = totalOrders;
         });
 
         // Close modals on outside click
