@@ -587,6 +587,84 @@
             margin-bottom: 30px;
         }
 
+        .week-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .week-nav-btn {
+            background-color: var(--background);
+            border: none;
+            border-radius: 8px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .week-nav-btn:hover {
+            background-color: var(--border-color);
+        }
+
+        .schedule-grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .day-schedule {
+            background-color: var(--background);
+            border-radius: 12px;
+            padding: 16px;
+            border: 2px solid transparent;
+        }
+
+        .day-schedule.today {
+            border-color: var(--primary-color);
+            background-color: #E3F2FD;
+        }
+
+        .day-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .day-name {
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .day-date {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .day-orders {
+            display: grid;
+            gap: 8px;
+        }
+
+        .day-order-item {
+            background-color: var(--card-background);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .order-count {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
         .issue-button {
             position: fixed;
             bottom: 24px;
@@ -838,8 +916,24 @@
             <div class="tab-content" id="weekTab">
                 <div class="weekly-schedule">
                     <h2><span>📅</span> Weekly Workload</h2>
-                    <div id="scheduleContent">
+                    <div class="week-navigation">
+                        <button class="week-nav-btn" onclick="changeWeek(-1)">←</button>
+                        <span id="weekRange">Current Week</span>
+                        <button class="week-nav-btn" onclick="changeWeek(1)">→</button>
+                    </div>
+                    <div class="schedule-grid" id="scheduleGrid">
                         <!-- Schedule will be populated here -->
+                    </div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <h3><span>📊</span> Weekly Statistics</h3>
+                        <div class="progress-container">
+                            <div class="progress-info">
+                                <span>Total Orders This Week</span>
+                                <span id="weeklyTotal">0</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -946,7 +1040,28 @@
                         deadline: "Today 7PM",
                         materials: ["Premium Leather (Brown)", "Rubber Sole (Size 40)", "Waxed Laces (Brown)", "Comfort Insole (Size 40)", "Stitching Thread (Brown)", "Boot Hardware (4 pairs eyelets)"]
                     }
-                ]
+                ],
+                weeklySchedule: {
+                    monday: [
+                        { model: "Loafer", quantity: 3 },
+                        { model: "Oxford", quantity: 2 }
+                    ],
+                    tuesday: [
+                        { model: "Boot", quantity: 2 },
+                        { model: "Sneaker", quantity: 4 }
+                    ],
+                    wednesday: [
+                        { model: "Oxford", quantity: 3 }
+                    ],
+                    thursday: [
+                        { model: "Derby", quantity: 2 },
+                        { model: "Loafer", quantity: 2 }
+                    ],
+                    friday: [
+                        { model: "Oxford", quantity: 1 },
+                        { model: "Boot", quantity: 2 }
+                    ]
+                }
             },
             john: {
                 name: "John Chen",
@@ -961,7 +1076,27 @@
                         deadline: "Today 4PM",
                         materials: ["Premium Leather (Tan)", "Rubber Sole (Size 44)", "Elastic Side Panels", "Comfort Insole (Size 44)", "Stitching Thread (Tan)"]
                     }
-                ]
+                ],
+                weeklySchedule: {
+                    monday: [
+                        { model: "Sneaker", quantity: 5 },
+                        { model: "Boot", quantity: 1 }
+                    ],
+                    tuesday: [
+                        { model: "Oxford", quantity: 3 }
+                    ],
+                    wednesday: [
+                        { model: "Monk Strap", quantity: 2 },
+                        { model: "Loafer", quantity: 3 }
+                    ],
+                    thursday: [
+                        { model: "Chelsea Boot", quantity: 2 }
+                    ],
+                    friday: [
+                        { model: "Chelsea Boot", quantity: 1 },
+                        { model: "Monk Strap", quantity: 1 }
+                    ]
+                }
             },
             ahmed: {
                 name: "Ahmed Hassan",
@@ -976,7 +1111,27 @@
                         deadline: "Today 3PM",
                         materials: ["Premium Leather (Black)", "Leather Sole (Size 45)", "Waxed Laces (Black)", "Luxury Insole (Size 45)", "Stitching Thread (Black)"]
                     }
-                ]
+                ],
+                weeklySchedule: {
+                    monday: [
+                        { model: "Derby", quantity: 3 }
+                    ],
+                    tuesday: [
+                        { model: "Brogue", quantity: 2 },
+                        { model: "Loafer", quantity: 2 }
+                    ],
+                    wednesday: [
+                        { model: "Oxford", quantity: 4 }
+                    ],
+                    thursday: [
+                        { model: "Boot", quantity: 1 },
+                        { model: "Sneaker", quantity: 3 }
+                    ],
+                    friday: [
+                        { model: "Brogue", quantity: 1 },
+                        { model: "Loafer", quantity: 2 }
+                    ]
+                }
             }
         };
 
@@ -987,10 +1142,12 @@
         let startTime = null;
         let timerInterval = null;
         let selectedIssueType = null;
+        let currentWeekOffset = 0;
         let orderStates = {};
         let orderTimers = {};
         let dailyStats = {
             total: 0,
+            pending: 0,
             completed: 0,
             inProgress: 0,
             completedTimes: []
@@ -1047,6 +1204,7 @@
             // Reset stats
             dailyStats = {
                 total: worker.todayOrders.length,
+                pending: worker.todayOrders.length,
                 completed: 0,
                 inProgress: 0,
                 completedTimes: []
@@ -1072,6 +1230,7 @@
             });
             
             loadOrders();
+            loadWeeklySchedule();
             updateStats();
         }
 
@@ -1270,6 +1429,7 @@
             startOrderTimer(orderId);
             
             // Update stats
+            dailyStats.pending--;
             dailyStats.inProgress++;
             updateStats();
         }
